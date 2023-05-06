@@ -13,7 +13,7 @@
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/native-stack": "^6.9.12",
     "dayjs": "^1.11.7",
-    "expo": "*",
+    "expo": "^48.0.16",
     "expo-av": "~13.2.1",
     "expo-constants": "^14.2.1",
     "expo-google-app-auth": "~8.3.0",

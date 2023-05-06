@@ -26,10 +26,13 @@ const SignIn = ({ navigation }) => {
       // const responsejson = await response.json();
       console.log(JSON.stringify(response));
       // console.log("start jsonify");
-
+      console.log(response.status);
       if (response.status == 200) {
+        const userId = response.user_id;
         console.log("start navigation");
-        navigation.navigate("Signin");
+        navigation.navigate("Chat", {
+          user_id: userId
+        });
       } else {
         throw new Error("Something went wrong");
       }
@@ -47,7 +50,7 @@ const SignIn = ({ navigation }) => {
       <View style={styles.container}>
         <Input
           placeholder="username"
-          onChangeText={setUsername}
+          onChangeText={setUserName}
           value={username}
         />
         <Input
