@@ -47,7 +47,7 @@ const SignIn = ({ navigation }) => {
       <View style={styles.container}>
         <Input
           placeholder="username"
-          onChangeText={setUserName}
+          onChangeText={setUsername}
           value={username}
         />
         <Input
@@ -57,6 +57,10 @@ const SignIn = ({ navigation }) => {
           secureTextEntry
         />
         <Button title="Sign In" onPress={handleSignIn} />
+        <Text>
+          need to register first ?
+          <Button title="Register" onPress={handleRegister} />
+        </Text>
       </View>
     </>
   );
