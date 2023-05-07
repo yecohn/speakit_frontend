@@ -10,9 +10,7 @@ const buttonSize = Math.min(width, height) * 0.12;
 
 const Microphone = () => {
   const [recording, setRecording] = useState(null);
-  const [isRecording, setIsRecording] = useState(false);
   const [sound, setSound] = useState(null);
-  const [recordingPermission, setRecordingPermission] = useState(null);
 
   async function requestRecordAudioPermission() {
     try {
@@ -29,7 +27,6 @@ const Microphone = () => {
       );
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
         console.log("Record Audio permission granted");
-        setRecordingPermission(true);
         return true;
       } else {
         console.log("Record Audio permission denied");
@@ -49,7 +46,6 @@ const Microphone = () => {
         await requestRecordAudioPermission();
         const {recording} = await Audio.Recording.createAsync( Audio.RecordingOptionsPresets.HIGH_QUALITY);
         setRecording(recording);
-        setIsRecording(true);
       } catch (err) {
         console.error("Failed to start recording", err);
       }
@@ -61,10 +57,35 @@ const Microphone = () => {
       const info = await FileSystem.getInfoAsync(recording.getURI());
       console.log(`File size: ${info.size}`);
       setRecording(undefined);
-      setIsRecording(false);
+
+
       await loadSound();
+      if (Boolean(sound)) {
+        await uploadRecording();
+      }
     } catch (err) {
       console.error("Failed to stop recording", err);
+    }
+  };
+
+  const uploadRecording = async () => {
+    const data = new FormData();
+    data.append("audio_input", {recording});
+    const res = await fetch(
+      "http://localhost:8000/upload",
+      {
+        method: "POST",
+        body: data,
+        headers: {
+          "Content-Type": "multipart/form-data; ",
+        },
+      }
+    );
+    const resJson = await res.json();
+    if (resJson.status === "success") {
+      console.log("Upload successful");
+    } else {
+      console.log("Upload failed");
     }
   };
 
