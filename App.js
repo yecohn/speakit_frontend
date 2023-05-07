@@ -13,7 +13,7 @@ export default function App() {
     <View style={styles.container}>
       <NavigationContainer>
         <Stack.Navigator>
-          {/* <Stack.Screen
+          <Stack.Screen
             name="Signin"
             component={Signin}
             options={{ title: "Sign in" }}
@@ -22,7 +22,7 @@ export default function App() {
             name="Register"
             component={Register}
             options={{ title: "Register" }}
-          /> */}
+          />
           <Stack.Screen
             name="Chats"
             component={ChatsScreen}

@@ -11,6 +11,7 @@ const Register = ({ navigation }) => {
   const handleRegister = async () => {
     try {
       console.log("start fetching");
+      console.log({ username, password, level, email });
       const response = await fetch("http://localhost:8000/register", {
         method: "POST",
         headers: {

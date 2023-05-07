@@ -14,16 +14,17 @@ const SignIn = ({ navigation }) => {
   const handleSignIn = async () => {
     try {
       console.log("start fetching");
+      form = new FormData();
+      form.append("username", username);
+      form.append("password", password);
       const response = await fetch("http://localhost:8000/login", {
         method: "POST",
         headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
+          "Content-Type": "multipart/form-data",
         },
-        body: JSON.stringify({ username, password }),
+        body: form,
       });
       console.log("finish fetch");
-      // const responsejson = await response.json();
       console.log(JSON.stringify(response));
       // console.log("start jsonify");
       console.log(response.status);
@@ -31,7 +32,7 @@ const SignIn = ({ navigation }) => {
         const userId = response.user_id;
         console.log("start navigation");
         navigation.navigate("Chat", {
-          user_id: userId
+          user_id: userId,
         });
       } else {
         throw new Error("Something went wrong");
