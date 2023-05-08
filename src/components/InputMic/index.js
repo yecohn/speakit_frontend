@@ -4,9 +4,9 @@ import { Audio } from "expo-av";
 import * as FileSystem from "expo-file-system";
 // import { Permissions } from "expo-permissions";
 import { PermissionsAndroid } from "react-native";
+import { Ionicons } from '@expo/vector-icons';
 
-const { width, height } = Dimensions.get('window');
-const buttonSize = Math.min(width, height) * 0.12;
+
 
 const Microphone = () => {
   const [recording, setRecording] = useState(null);
@@ -120,7 +120,7 @@ const Microphone = () => {
           onPressIn={recording ? undefined : startRecording}
           onPressOut={recording ? stopRecording : undefined}
           style={styles.microphoneButton}> 
-          <Image source={require("./icon.png")} style={styles.microphoneIcon} />
+          <Ionicons name="mic-outline" size={24} color="gray" />
         </TouchableOpacity>}
       {Boolean(sound) && <TouchableOpacity onPress={playRecording}>
               <Text>Play recording</Text>
@@ -129,24 +129,12 @@ const Microphone = () => {
   );
 };
 
+const { width, height } = Dimensions.get('window');
+const buttonSize = Math.min(width, height) * 0.12;
 
 const styles = StyleSheet.create({
   microphoneButton: {
-    width: buttonSize,
-    height: buttonSize,
-    borderRadius: buttonSize / 2,
-    backgroundColor: '#2196F3',
-    justifyContent: 'center',
-    alignItems: 'center',
-    position: 'absolute',
-    bottom: height * 0.05,
-    alignSelf: 'center',
-    zIndex: 1,
-  },
-  microphoneIcon: {
-    width: buttonSize * 0.5,
-    height: buttonSize * 0.5,
-    resizeMode: 'contain',
+    paddingHorizontal: 8,
   },
 });
 

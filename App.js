@@ -3,37 +3,42 @@ import ChatsScreen from "./src/screens/ChatsScreen";
 import ChatScreen from "./src/screens/ChatScreen";
 import Signin from "./src/screens/SignIn";
 import Register from "./src/screens/Register";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from "@react-navigation/native";
+import 'react-native-gesture-handler';
+import CustomDrawerContent from "./src/components/DrawerMenu/drawer";
+
+
 
 export default function App() {
-  const Stack = createNativeStackNavigator();
+  // const Stack = createNativeStackNavigator();
+  const Drawer = createDrawerNavigator();
 
   return (
     <View style={styles.container}>
       <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen
+        <Drawer.Navigator
+          initialRouteName="Chats"
+          drawerContent={(props) => <CustomDrawerContent {...props} />}>
+          <Drawer.Screen
             name="Signin"
             component={Signin}
             options={{ title: "Sign in" }}
           />
-          <Stack.Screen
+          <Drawer.Screen
             name="Register"
             component={Register}
             options={{ title: "Register" }}
           />
-          <Stack.Screen
+          <Drawer.Screen
             name="Chats"
             component={ChatsScreen}
-            options={{ title: "My chats" }}
           />
-          <Stack.Screen
+          <Drawer.Screen
             name="Chat"
             component={ChatScreen}
-            options={{ title: "The chat" }}
           />
-        </Stack.Navigator>
+        </Drawer.Navigator>
       </NavigationContainer>
     </View>
   );

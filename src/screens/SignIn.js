@@ -7,7 +7,7 @@ import { Input, Button } from "react-native-elements";
 // const CLIENT_ID = 'your-google-client-id';
 
 const SignIn = ({ navigation }) => {
-  // navigation.navigate("Chats");
+
   const [password, setPassword] = useState("");
   const [username, setUserName] = useState("");
 
@@ -17,6 +17,7 @@ const SignIn = ({ navigation }) => {
       form = new FormData();
       form.append("username", username);
       form.append("password", password);
+
       const response = await fetch("http://localhost:8000/login", {
         method: "POST",
         headers: {
@@ -24,13 +25,15 @@ const SignIn = ({ navigation }) => {
         },
         body: form,
       });
+
       console.log("finish fetch");
       console.log(JSON.stringify(response));
-      // console.log("start jsonify");
       console.log(response.status);
+
       if (response.status == 200) {
         const userId = response.user_id;
         console.log("start navigation");
+        await storeData(userId);
         navigation.navigate("Chat", {
           user_id: userId,
         });

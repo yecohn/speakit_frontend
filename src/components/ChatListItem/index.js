@@ -7,17 +7,6 @@ dayjs.extend(relativeTime);
 const ChatListItem = ({chat}) => {
   return (
     
-      // <View style={styles.container}>
-      //   <Text>{chat.user.name}</Text>
-      //   <View style={styles.row}>
-      //     <Text>{chat.lastMessage.text}</Text>
-      //     <Text style={styles.subTitle}>
-      //       {dayjs(chat.lastMessage.createdAt).fromNow(true)}
-      //   </Text>
-      //   </View>
-        
-        
-        
         <View style={styles.content}>
           <View style={styles.row}>
             <Text style={styles.name} numberOfLines={1}>
