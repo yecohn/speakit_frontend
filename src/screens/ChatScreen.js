@@ -32,8 +32,6 @@ const ChatScreen = ({ route, navigaton }) => {
     FetchData();
   }, []);
 
-  // prop.settext(inputText);
-
   async function PostMessage(newmessage) {
     await fetch("http://localhost:8000/chat/" + user_id + "/post", {
       method: "POST",
@@ -69,18 +67,24 @@ const ChatScreen = ({ route, navigaton }) => {
         renderItem={({ item }) => <Message message={item} user_id={user_id} />}
         style={styles.chat}
         inverted
-        contentContainerStyle={styles.messagesContainer}
-      />
+        contentContainerStyle={styles.messagesContainer}/>
+
       <View style={styles.inputContainer}>
+      
         <TextInput
           style={styles.input}
-          placeholder="type a message"
-          onChangeText={setInputText}
+          placeholder="Type a message"
           defaultValue={inputText}
-        />
+          onChangeText={newText => setInputText(newText)}/>
+
         <Microphone />
-        <TouchableOpacity style={styles.sendButton} onPress={handleSend}>
+
+        <TouchableOpacity
+          style={styles.sendButton}
+          onPress={handleSend}
+          onChangeText={setInputText}>
           <Ionicons name="send-outline" size={24} color="white" />
+
         </TouchableOpacity>
       </View>
     </View>
@@ -103,30 +107,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingBottom: 16,
   },
-  // messageContainer: {
-  //   maxWidth: '80%',
-  //   borderRadius: 8,
-  //   paddingHorizontal: 12,
-  //   paddingVertical: 8,
-  //   marginVertical: 4,
-  // },
-  // myMessageContainer: {
-  //   backgroundColor: '#DCF8C5',
-  //   alignSelf: 'flex-end',
-  // },
-  // theirMessageContainer: {
-  //   backgroundColor: '#EAEAEA',
-  //   alignSelf: 'flex-start',
-  // },
-  // messageText: {
-  //   fontSize: 16,
-  // },
-  // myMessageText: {
-  //   color: 'black',
-  // },
-  // theirMessageText: {
-  //   color: 'black',
-  // },
   inputContainer: {
     flexDirection: "row",
     alignItems: "center",
