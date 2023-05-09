@@ -18,49 +18,50 @@ import {
 
   const TopicsScreen = ({ route, navigation }) => {
 
-    const topics = [ 
-        {
-            id: 1,
-            name: "Topic 1",
-            description: "This is the first topic",
-            video: "https://www.youtube.com/watch?v=0pThnRneDjw",
-            transcript: "This is the transcript for the first topic",
-        },
-        {
-            id: 2,
-            name: "Topic 2",
-            description: "This is the second topic",
-            video: "https://www.youtube.com/watch?v=0pThnRneDjw",
-            transcript: "This is the transcript for the second topic",
-        },
-        {
-            id: 3,
-            name: "Topic 3",
-            description: "This is the third topic",
-            video: "https://www.youtube.com/watch?v=0pThnRneDjw",
-            transcript: "This is the transcript for the third topic",
-        },
-    ];
-    // const [needFetch, setNeedFetch] = useState(false);
-    // const [topics, setTopics] = useState([]);
+    // const topics = [ 
+    //     {
+    //         id: 1,
+    //         name: "Topic 1",
+    //         description: "This is the first topic",
+    //         video: "https://www.youtube.com/watch?v=0pThnRneDjw",
+    //         transcript: "This is the transcript for the first topic",
+    //     },
+    //     {
+    //         id: 2,
+    //         name: "Topic 2",
+    //         description: "This is the second topic",
+    //         video: "https://www.youtube.com/watch?v=0pThnRneDjw",
+    //         transcript: "This is the transcript for the second topic",
+    //     },
+    //     {
+    //         id: 3,
+    //         name: "Topic 3",
+    //         description: "This is the third topic",
+    //         video: "https://www.youtube.com/watch?v=0pThnRneDjw",
+    //         transcript: "This is the transcript for the third topic",
+    //     },
+    // ];
+    const [needFetch, setNeedFetch] = useState(false);
+    const [topics, setTopics] = useState([]);
 
     const { user_id } = route.params;
 
-    // useEffect(() => {
-        // async function FetchData() {
-        //     const response = await fetch("http://localhost:8000/topics/", {
-        //         method: "GET",
-        //     });
-        //     const json = await response.json();
-        //     setTopics(json.topics);
-        // }
-        // FetchData();
-    // }, [FetchData]);
+    useEffect(() => {
+        async function FetchData() {
+            const response = await fetch("http://localhost:8000/topics/", {
+                method: "GET",
+            });
+            const json = await response.json();
+            console.log(JSON.stringify(json));
+            setTopics(json);
+        }
+        FetchData();
+    }, [needFetch]);
 
     // component triggerTopicChat tells the server with address to specific topic to make an action with some api call
-    const triggerTopicChat = async (id) => {
+    const triggerTopicChat = async (topic_id) => {
         try {
-            await fetch("http://localhost:8000/topics/" + id, {
+            await fetch("http://localhost:8000/topics/" + topic_id, {
                 method: "GET",
             });
         } catch (error) {
@@ -68,27 +69,30 @@ import {
         }
     };
 
-    const handleOnPress = (item, navigation) => {
-        Linking.openURL(item.video);
-        triggerTopicChat(item.id);
+    const handleOnPress = async (item, navigation) => {
+        Linking.openURL(item.link);
+        await triggerTopicChat(item.topic_id);
         navigation.navigate("Chat", {
             user_id: user_id,
         });
+        setNeedFetch(!needFetch);
     };
 
     return (
-        <FlatList
-            data={topics}
-            renderItem={({ item }) => (
-                <TouchableOpacity 
-                    style={styles.topicItem}
-                    onPress={() => {handleOnPress(item, navigation)}}>
+        <View>
+            <FlatList
+                data={topics}
+                renderItem={({ item }) => (
+                    <TouchableOpacity 
+                        style={styles.topicItem}
+                        onPress={() => {handleOnPress(item, navigation)}}>
 
-                    <Text style={styles.topicText}>{item.name}</Text>
-                    <Text style={styles.topicDescription}>{item.description}</Text>
-                </TouchableOpacity>
-            )}
-        />
+                        <Text style={styles.topicText}>{item.name}</Text>
+                        <Text style={styles.topicDescription}>{item.description}</Text>
+                    </TouchableOpacity>
+                )}
+            />
+        </View>
             
     );
 

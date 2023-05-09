@@ -9,9 +9,28 @@ import {
   import React, { useState, useEffect } from "react";
 
   const LectureScreen = ({ route, navigaton }) => {
+
+    const [lesson, setLesson] = useState("");
+
+
+    // useEffect function that fetch a lesson endpoint on the server
+    useEffect(() => {
+        async function FetchData() {
+            const response = await fetch("http://localhost:8000/lesson/", {
+                method: "GET",
+            });
+            const json = await response.json();
+            console.log(JSON.stringify(json));
+            setLesson(json);
+        }
+        FetchData();
+    }, []);
+
+
     return (
-      <View style={styles.container}>
-        <Text>Lecture Screen</Text>
+      <View>
+        <Text style={styles.container}>Lesson</Text>
+        <Text>{lesson}</Text>
       </View>
     );
   };
