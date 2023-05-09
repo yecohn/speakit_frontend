@@ -8,7 +8,6 @@ import { storeData } from "../tools/asyncStorage";
 // const CLIENT_ID = 'your-google-client-id';
 
 const SignIn = ({ navigation }) => {
-
   const [password, setPassword] = useState("");
   const [username, setUserName] = useState("");
 
@@ -26,16 +25,13 @@ const SignIn = ({ navigation }) => {
         },
         body: form,
       });
+      const json = await response.json();
 
-      // console.log("finish fetch");
-      // console.log(JSON.stringify(response));
-      // console.log(response.status);
+      console.log("finish fetch");
 
       if (response.status == 200) {
-        const userId = response.user_id;
-        // console.log("start navigation");
-        // console.log(response);
-        await storeData('user_id', userId);
+        const userId = json.user_id;
+        console.log("start navigation");
         navigation.navigate("Chat", {
           user_id: userId,
         });

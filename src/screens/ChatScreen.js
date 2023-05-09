@@ -1,21 +1,38 @@
-import { View, TextInput, FlatList, StyleSheet, TouchableOpacity } from "react-native";
-import React, { useState } from 'react';
+import {
+  View,
+  TextInput,
+  FlatList,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
+import React, { useState, useEffect } from "react";
 import Message from "../components/Message";
-import messages from "../../assets/data/messages.json";
+// import messages from "../../assets/data/messages.json";
 import Microphone from "../components/InputMic";
-import Constants from 'expo-constants';
-import { Ionicons } from '@expo/vector-icons';
+import Constants from "expo-constants";
+import { Ionicons } from "@expo/vector-icons";
+import { useFocusEffect } from "@react-navigation/native";
+import { set } from "react-native-reanimated";
+
+const ChatScreen = ({ route, navigaton }) => {
+  const [messages, setMessages] = useState([]);
+  const { user_id } = route.params;
+  const [inputText, setInputText] = useState("");
+  const [needFetch, setNeedFetch] = useState(false);
 
 
-const ChatScreen = ({route, navigaton}) => {
-  
-  const {user_id} = route.params;
-  const [inputText, setInputText] = useState('');
-
+  useEffect(() => {
+    async function FetchData() {
+      const response = await fetch("http://localhost:8000/chat/" + user_id, {
+        method: "GET",
+      });
+      const json = await response.json();
+      setMessages(json.messages);
+    }
+    FetchData();
+  }, [needFetch]);
 
   const MultiLineTextInput = () => {
-
-  
     return (
       <TextInput
           style={styles.input}
@@ -26,31 +43,50 @@ const ChatScreen = ({route, navigaton}) => {
     );
   };
 
+  async function PostMessage(newmessage) {
+    await fetch("http://localhost:8000/chats" + user_id, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: newmessage,
+    });
+  }
+
   const handleSend = () => {
     if (inputText.trim()) {
       const newMessage = {
-        id: String(Math.random()),
-        text: inputText.trim(),
-        sender: 'me',
+        user_id: user_id,
+        message: inputText.trim(),
+        createdAt: Date.now(),
       };
+      // messages.push(newMessage);
+      // setMessages(messages);
+      const json = JSON.stringify(newMessage);
+      PostMessage(json);
       // send message form to server
-      setInputText('');
+      setInputText("");
+      setNeedFetch(!needFetch);
     }
   };
 
   return (
     <View style={styles.container}>
       <FlatList
-        data = {messages}
+        data={messages}
         renderItem={({ item }) => <Message message={item} user_id={user_id} />}
         style={styles.chat}
         inverted
-        contentContainerStyle = {styles.messagesContainer}
-        />
+        contentContainerStyle={styles.messagesContainer}
+      />
       <View style={styles.inputContainer}>
         <MultiLineTextInput />
         <Microphone />
-        <TouchableOpacity style={styles.sendButton} onPress={handleSend}>
+        <TouchableOpacity
+          style={styles.sendButton}
+          onPress={handleSend}
+          onChangeText={setInputText}
+        >
           <Ionicons name="send-outline" size={24} color="white" />
         </TouchableOpacity>
       </View>
@@ -67,7 +103,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     paddingTop: Constants.statusBarHeight,
   },
   messagesContainer: {
@@ -99,12 +135,12 @@ const styles = StyleSheet.create({
   //   color: 'black',
   // },
   inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'lightgray',
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "lightgray",
     padding: 8,
     borderTopWidth: StyleSheet.hairlineWidth,
-    borderColor: 'gray',
+    borderColor: "gray",
   },
   input: {
     flex: 1,
@@ -113,7 +149,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   sendButton: {
-    backgroundColor: 'green',
+    backgroundColor: "green",
     borderRadius: 999,
     padding: 8,
     marginHorizontal: 8,

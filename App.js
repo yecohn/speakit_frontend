@@ -18,7 +18,7 @@ export default function App() {
     <View style={styles.container}>
       <NavigationContainer>
         <Drawer.Navigator
-          initialRouteName="Sign In"
+          initialRouteName="Signin"
           drawerContent={(props) => <CustomDrawerContent {...props} />}>
           <Drawer.Screen
             name="Signin"
