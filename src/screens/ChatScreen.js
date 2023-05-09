@@ -20,8 +20,8 @@ const ChatScreen = ({route, navigaton}) => {
       <TextInput
           style={styles.input}
           placeholder="Type a message"
-          value={inputText}
-          onChangeText={setInputText}
+          defaultValue={inputText}
+          onChangeText={newText => setInputText(newText)}
     />
     );
   };

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { Input, Button } from "react-native-elements";
+import { storeData } from "../tools/asyncStorage";
 // import { AuthSession } from 'expo';
 // import * as Google from 'expo-google-app-auth';
 
@@ -26,14 +27,15 @@ const SignIn = ({ navigation }) => {
         body: form,
       });
 
-      console.log("finish fetch");
-      console.log(JSON.stringify(response));
-      console.log(response.status);
+      // console.log("finish fetch");
+      // console.log(JSON.stringify(response));
+      // console.log(response.status);
 
       if (response.status == 200) {
         const userId = response.user_id;
-        console.log("start navigation");
-        await storeData(userId);
+        // console.log("start navigation");
+        // console.log(response);
+        await storeData('user_id', userId);
         navigation.navigate("Chat", {
           user_id: userId,
         });
