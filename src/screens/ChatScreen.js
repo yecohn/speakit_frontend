@@ -13,13 +13,13 @@ import Constants from "expo-constants";
 import { Ionicons } from "@expo/vector-icons";
 import { useFocusEffect } from "@react-navigation/native";
 import { set } from "react-native-reanimated";
+import { Input } from "react-native-elements";
 
 const ChatScreen = ({ route, navigaton }) => {
   const [messages, setMessages] = useState([]);
   const { user_id } = route.params;
-  const [inputText, setInputText] = useState("");
   const [needFetch, setNeedFetch] = useState(false);
-
+  const [inputText, setInputText] = useState("");
 
   useEffect(() => {
     async function FetchData() {
@@ -30,10 +30,10 @@ const ChatScreen = ({ route, navigaton }) => {
       setMessages(json.messages);
     }
     FetchData();
-  }, [needFetch]);
+  }, []);
 
   async function PostMessage(newmessage) {
-    await fetch("http://localhost:8000/chats" + user_id, {
+    await fetch("http://localhost:8000/chat/" + user_id + "/post", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -43,19 +43,20 @@ const ChatScreen = ({ route, navigaton }) => {
   }
 
   const handleSend = () => {
-    if (inputText.trim()) {
+    if (inputText) {
       const newMessage = {
-        user_id: user_id,
-        message: inputText.trim(),
+        user: { id: user_id, username: "Me" },
+        message: "inputText",
         createdAt: Date.now(),
       };
-      // messages.push(newMessage);
-      // setMessages(messages);
+      console.log(inputText);
       const json = JSON.stringify(newMessage);
       PostMessage(json);
       // send message form to server
       setInputText("");
       setNeedFetch(!needFetch);
+    } else {
+      console.log("empty message");
     }
   };
 
@@ -69,7 +70,7 @@ const ChatScreen = ({ route, navigaton }) => {
         contentContainerStyle={styles.messagesContainer}/>
 
       <View style={styles.inputContainer}>
-
+      
         <TextInput
           style={styles.input}
           placeholder="Type a message"
