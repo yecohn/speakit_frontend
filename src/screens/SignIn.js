@@ -27,13 +27,14 @@ const SignIn = ({ navigation }) => {
       });
       const json = await response.json();
 
-      console.log("finish fetch");
-
       if (response.status == 200) {
         const userId = json.user_id;
-        console.log("start navigation");
-        navigation.navigate("Chat", {
-          user_id: userId,
+        console.log(userId);
+        storeData("user_id", userId);
+        navigation.navigate('DrawerStack', {
+          screen: 'Chat', params: {
+            user_id: userId,
+          }
         });
       } else {
         throw new Error("Something went wrong");
