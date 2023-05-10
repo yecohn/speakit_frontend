@@ -11,9 +11,6 @@ import Message from "../components/Message";
 import Microphone from "../components/InputMic";
 import Constants from "expo-constants";
 import { Ionicons } from "@expo/vector-icons";
-import { useFocusEffect } from "@react-navigation/native";
-import { set } from "react-native-reanimated";
-import { Input } from "react-native-elements";
 
 const ChatScreen = ({ route, navigaton }) => {
   const [messages, setMessages] = useState([]);
@@ -28,9 +25,10 @@ const ChatScreen = ({ route, navigaton }) => {
       });
       const json = await response.json();
       setMessages(json.messages);
+      console.log("fetch data");
     }
     FetchData();
-  }, []);
+  }, [needFetch]);
 
   async function PostMessage(newmessage) {
     await fetch("http://localhost:8000/chat/" + user_id + "/post", {
@@ -42,19 +40,20 @@ const ChatScreen = ({ route, navigaton }) => {
     });
   }
 
-  const handleSend = () => {
+  const handleSend = async () => {
     if (inputText) {
       const newMessage = {
         user: { id: user_id, username: "Me" },
-        message: "inputText",
+        message: inputText,
         createdAt: Date.now(),
       };
       console.log(inputText);
       const json = JSON.stringify(newMessage);
-      PostMessage(json);
+      await PostMessage(json);
       // send message form to server
       setInputText("");
       setNeedFetch(!needFetch);
+      console.log("need fetch" + needFetch);
     } else {
       console.log("empty message");
     }
@@ -67,24 +66,25 @@ const ChatScreen = ({ route, navigaton }) => {
         renderItem={({ item }) => <Message message={item} user_id={user_id} />}
         style={styles.chat}
         inverted
-        contentContainerStyle={styles.messagesContainer}/>
+        contentContainerStyle={styles.messagesContainer}
+      />
 
       <View style={styles.inputContainer}>
-      
         <TextInput
           style={styles.input}
           placeholder="Type a message"
           defaultValue={inputText}
-          onChangeText={newText => setInputText(newText)}/>
+          onChangeText={(newText) => setInputText(newText)}
+        />
 
         <Microphone />
 
         <TouchableOpacity
           style={styles.sendButton}
           onPress={handleSend}
-          onChangeText={setInputText}>
+          onChangeText={setInputText}
+        >
           <Ionicons name="send-outline" size={24} color="white" />
-
         </TouchableOpacity>
       </View>
     </View>
@@ -104,6 +104,7 @@ const styles = StyleSheet.create({
     paddingTop: Constants.statusBarHeight,
   },
   messagesContainer: {
+    flexDirection:'column-reverse',
     paddingHorizontal: 16,
     paddingBottom: 16,
   },
@@ -127,6 +128,10 @@ const styles = StyleSheet.create({
     padding: 8,
     marginHorizontal: 8,
   },
+  // chat: {
+  //   flex: 1,
+  //   flexDirection: "row-reverse",
+  // },
 });
 
 export default ChatScreen;
