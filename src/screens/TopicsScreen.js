@@ -2,12 +2,16 @@ import {
     View,
     Text,
     TextInput,
+    Image,
     FlatList,
     StyleSheet,
     TouchableOpacity,
     Linking,
   } from "react-native";
+
   import React, { useState, useEffect } from "react";
+  import YoutubePlayer from 'react-native-youtube-iframe';
+
 //   import { getData } from './../tools/asyncStorage';
 
 
@@ -18,29 +22,6 @@ import {
 
   const TopicsScreen = ({ route, navigation }) => {
 
-    // const topics = [ 
-    //     {
-    //         id: 1,
-    //         name: "Topic 1",
-    //         description: "This is the first topic",
-    //         video: "https://www.youtube.com/watch?v=0pThnRneDjw",
-    //         transcript: "This is the transcript for the first topic",
-    //     },
-    //     {
-    //         id: 2,
-    //         name: "Topic 2",
-    //         description: "This is the second topic",
-    //         video: "https://www.youtube.com/watch?v=0pThnRneDjw",
-    //         transcript: "This is the transcript for the second topic",
-    //     },
-    //     {
-    //         id: 3,
-    //         name: "Topic 3",
-    //         description: "This is the third topic",
-    //         video: "https://www.youtube.com/watch?v=0pThnRneDjw",
-    //         transcript: "This is the transcript for the third topic",
-    //     },
-    // ];
     const [needFetch, setNeedFetch] = useState(false);
     const [topics, setTopics] = useState([]);
 
@@ -52,13 +33,11 @@ import {
                 method: "GET",
             });
             const json = await response.json();
-            console.log(JSON.stringify(json));
             setTopics(json);
         }
         FetchData();
     }, [needFetch]);
 
-    // component triggerTopicChat tells the server with address to specific topic to make an action with some api call
     const triggerTopicChat = async (topic_id) => {
         try {
             await fetch("http://localhost:8000/topics/" + topic_id, {
@@ -68,6 +47,18 @@ import {
             console.log(error);
         }
     };
+
+
+
+    function thumbnail(link) {
+        const video_id = link.substring(link.indexOf('=')+1);
+        const thumbnail = ['http://img.youtube.com/vi/', video_id, '/hqdefault.jpg'].join('');
+        // const image = require();
+        return thumbnail;
+    };
+
+
+    // function that creates a list of images where each element requires an image from a uri given by thumbnail function
 
     const handleOnPress = async (item, navigation) => {
         Linking.openURL(item.link);
@@ -80,18 +71,30 @@ import {
 
     return (
         <View>
-            <FlatList
+            <Text style={styles.container}>Topics</Text>
+            <Image uri={ 'https://reactnative.dev/docs/assets/p_cat2.png'} />
+            {/* <FlatList
                 data={topics}
                 renderItem={({ item }) => (
                     <TouchableOpacity 
                         style={styles.topicItem}
                         onPress={() => {handleOnPress(item, navigation)}}>
+                        <View>
+                            <Text style={styles.topicText}>{item.name}</Text>
+                            <Text style={styles.topicDescription}>{item.description}</Text>
+                            {/* <Image style={styles.topicThumbnail} source={thumbnail(item.link)} contentFit='cover' /> 
+                        </View>
 
-                        <Text style={styles.topicText}>{item.name}</Text>
-                        <Text style={styles.topicDescription}>{item.description}</Text>
                     </TouchableOpacity>
+                    <View>
+                        <YoutubePlayer
+                            height={300}
+                            play={true}
+                            videoId={item.link.substring(0, item.link.indexOf('=')+1)} // '84WIaK3bl_s'
+                        />
+                    </View>
                 )}
-            />
+            /> */}
         </View>
             
     );
@@ -121,9 +124,10 @@ import {
         fontSize: 15,
         textAlign: "center",
     },
-    topicVideo: {
-        fontSize: 10,
-        textAlign: "center",
+    topicThumbnail: {
+        flex: 1,
+        width: '100%',
+        backgroundColor: '#0553',
     },
   });
   
