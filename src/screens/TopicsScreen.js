@@ -13,6 +13,7 @@ import React, { useState, useEffect } from "react";
 // topics object that includes three topics with a topic name, id, short description, and link to youtube video
 
 const TopicsScreen = ({ route, navigation }) => {
+  
   // const topics = [
   //     {
   //         id: 1,
@@ -21,21 +22,7 @@ const TopicsScreen = ({ route, navigation }) => {
   //         video: "https://www.youtube.com/watch?v=0pThnRneDjw",
   //         transcript: "This is the transcript for the first topic",
   //     },
-  //     {
-  //         id: 2,
-  //         name: "Topic 2",
-  //         description: "This is the second topic",
-  //         video: "https://www.youtube.com/watch?v=0pThnRneDjw",
-  //         transcript: "This is the transcript for the second topic",
-  //     },
-  //     {
-  //         id: 3,
-  //         name: "Topic 3",
-  //         description: "This is the third topic",
-  //         video: "https://www.youtube.com/watch?v=0pThnRneDjw",
-  //         transcript: "This is the transcript for the third topic",
-  //     },
-  // ];
+
   const [needFetch, setNeedFetch] = useState(false);
   const [topics, setTopics] = useState([]);
 
@@ -47,7 +34,6 @@ const TopicsScreen = ({ route, navigation }) => {
         method: "GET",
       });
       const json = await response.json();
-      console.log(JSON.stringify(json));
       setTopics(json);
     }
     FetchData();
@@ -78,18 +64,11 @@ const TopicsScreen = ({ route, navigation }) => {
 
     // function that creates a list of images where each element requires an image from a uri given by thumbnail function
 
-    const handleOnPress = async (item, navigation) => {
-        Linking.openURL(item.link);
-        await triggerTopicChat(item.topic_id);
-        navigation.navigate("Chat", {
-            user_id: user_id,
-        });
-        setNeedFetch(!needFetch);
-    };
+
   const handleOnPress = async (item, navigation) => {
-    Linking.openURL(item.link);
     await triggerTopicChat(item.topic_id);
-    await askQuestionTranscript(item.transcript);
+    Linking.openURL(item.link);
+    // await askQuestionTranscript(item.transcript);
     navigation.navigate("Chat", {
       user_id: user_id,
     });

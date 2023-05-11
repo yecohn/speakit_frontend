@@ -7,10 +7,10 @@ import dayjs from "dayjs";
 dayjs.extend(relativeTime);
 
 
-const Message = ({ message, user_id }) => {
+const Message = ({ message }) => {
 
   const isMyMessage = () => {
-    return message.user.id === user_id;
+    return message.origin === 'user';
   };
 
   return (

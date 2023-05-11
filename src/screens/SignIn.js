@@ -13,7 +13,7 @@ const SignIn = ({ navigation }) => {
 
   const handleSignIn = async () => {
     try {
-      console.log("start fetching");
+      console.log("Signing in");
       form = new FormData();
       form.append("username", username);
       form.append("password", password);

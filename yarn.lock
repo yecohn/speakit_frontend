@@ -3315,22 +3315,10 @@
   "resolved" "https://registry.npmjs.org/escape-string-regexp/-/escape-string-regexp-4.0.0.tgz"
   "version" "4.0.0"
 
-<<<<<<< HEAD
-escape-string-regexp@2.0.0:
-  version "2.0.0"
-  resolved "https://registry.npmjs.org/escape-string-regexp/-/escape-string-regexp-2.0.0.tgz"
-  integrity sha512-UpzcLCXolUWcNu5HtVMHYdXJjArjsF9C0aNnquZYY4uW/Vu0miy5YoWvbV345HauVvcAUnpRuhMMcqTcGOY2+w==
-
 esprima@^4.0.0, esprima@~4.0.0:
   version "4.0.1"
   resolved "https://registry.npmjs.org/esprima/-/esprima-4.0.1.tgz"
   integrity sha512-eGuFFw7Upda+g4p+QHvnW0RyTX/SVeJBDM/gCtMARO0cLuT2HcEKnTPvhjV6aGeqrCB/sbNop0Kszm0jsaWU4A==
-=======
-"esprima@^4.0.0", "esprima@~4.0.0":
-  "integrity" "sha512-eGuFFw7Upda+g4p+QHvnW0RyTX/SVeJBDM/gCtMARO0cLuT2HcEKnTPvhjV6aGeqrCB/sbNop0Kszm0jsaWU4A=="
-  "resolved" "https://registry.npmjs.org/esprima/-/esprima-4.0.1.tgz"
-  "version" "4.0.1"
->>>>>>> 1fb1590ff1df3228473c787077702f587635bb8c
 
 "esutils@^2.0.2":
   "integrity" "sha512-kVscqXk4OCp68SZ0dkgEKVi6/8ij300KBWTJq32P/dYeWTSwK41WyTxalN1eRmA5Z9UU/LX9D7FWSmV9SAYx6g=="
@@ -3347,22 +3335,10 @@ esprima@^4.0.0, esprima@~4.0.0:
   "resolved" "https://registry.npmjs.org/event-target-shim/-/event-target-shim-5.0.1.tgz"
   "version" "5.0.1"
 
-<<<<<<< HEAD
-events@^3.2.0:
-  version "3.3.0"
-  resolved "https://registry.npmjs.org/events/-/events-3.3.0.tgz"
-  integrity sha512-mQw+2fkQbALzQ7V0MY0IqdnXNOeTtP4r0lN9z7AAawCXgqea7bDii20AYrIBrFd/Hx0M2Ocz6S111CaFkUcb0Q==
-
 exec-async@^2.2.0:
   version "2.2.0"
   resolved "https://registry.npmjs.org/exec-async/-/exec-async-2.2.0.tgz"
   integrity sha512-87OpwcEiMia/DeiKFzaQNBNFeN3XkkpYIh9FyOqq5mS2oKv3CBE67PXoEKcr6nodWdXNogTiQ0jE2NGuoffXPw==
-=======
-"exec-async@^2.2.0":
-  "integrity" "sha512-87OpwcEiMia/DeiKFzaQNBNFeN3XkkpYIh9FyOqq5mS2oKv3CBE67PXoEKcr6nodWdXNogTiQ0jE2NGuoffXPw=="
-  "resolved" "https://registry.npmjs.org/exec-async/-/exec-async-2.2.0.tgz"
-  "version" "2.2.0"
->>>>>>> 1fb1590ff1df3228473c787077702f587635bb8c
 
 "execa@^1.0.0":
   "integrity" "sha512-adbxcyWV46qiHyvSp50TKt05tB4tK3HcmF7/nxfAdhnox83seTDbwnaqKO4sXRy7roHAIFqJP/Rw/AuEbX61LA=="
@@ -3465,22 +3441,10 @@ exec-async@^2.2.0:
   dependencies:
     "expo-app-auth" "~11.1.0"
 
-<<<<<<< HEAD
-expo-image@~1.0.0:
-  version "1.0.0"
-  resolved "https://registry.npmjs.org/expo-image/-/expo-image-1.0.0.tgz"
-  integrity sha512-A1amVExKhBa/eRXuceauYtPkf9izeje5AbxEWL09tgK91rf3GSIZXM5PSDGlIM0s7dpCV+Iet2jhwcFUfWaZrw==
-
 expo-keep-awake@~12.0.1:
   version "12.0.1"
   resolved "https://registry.npmjs.org/expo-keep-awake/-/expo-keep-awake-12.0.1.tgz"
   integrity sha512-hqeCnb4033TyuZaXs93zTK7rjVJ3bywXATyMmKmKkLEsH2PKBAl/VmjlCOPQL/2Ncqz6aj7Wo//tjeJTARBD4g==
-=======
-"expo-keep-awake@~12.0.1":
-  "integrity" "sha512-hqeCnb4033TyuZaXs93zTK7rjVJ3bywXATyMmKmKkLEsH2PKBAl/VmjlCOPQL/2Ncqz6aj7Wo//tjeJTARBD4g=="
-  "resolved" "https://registry.npmjs.org/expo-keep-awake/-/expo-keep-awake-12.0.1.tgz"
-  "version" "12.0.1"
->>>>>>> 1fb1590ff1df3228473c787077702f587635bb8c
 
 "expo-modules-autolinking@>=0.8.1", "expo-modules-autolinking@1.2.0":
   "integrity" "sha512-QOPh/iXykNDCAzUual1imSrn2aDakzCGUp2QmxVREr0llajXygroUWlT9sQXh1zKzbNp+a+i/xK375ZeBFiNJA=="
@@ -4118,17 +4082,10 @@ expo-keep-awake@~12.0.1:
     "default-gateway" "^4.2.0"
     "ipaddr.js" "^1.9.0"
 
-<<<<<<< HEAD
-invariant@*, invariant@^2.2.4, invariant@2.2.4:
+invariant@*, invariant@^2.2.4:
   version "2.2.4"
   resolved "https://registry.npmjs.org/invariant/-/invariant-2.2.4.tgz"
   integrity sha512-phJfQVBuaJM5raOpJjSfkiD6BpbCE4Ns//LaXl6wGYtUBY83nWS6Rf9tXm2e8VaK60JEjYldbPif/A2B1C2gNA==
-=======
-"invariant@*", "invariant@^2.2.4":
-  "integrity" "sha512-phJfQVBuaJM5raOpJjSfkiD6BpbCE4Ns//LaXl6wGYtUBY83nWS6Rf9tXm2e8VaK60JEjYldbPif/A2B1C2gNA=="
-  "resolved" "https://registry.npmjs.org/invariant/-/invariant-2.2.4.tgz"
-  "version" "2.2.4"
->>>>>>> 1fb1590ff1df3228473c787077702f587635bb8c
   dependencies:
     "loose-envify" "^1.0.0"
 
@@ -6297,32 +6254,10 @@ invariant@*, invariant@^2.2.4, invariant@2.2.4:
     "prop-types" "^15.7.2"
     "yargs" "^16.1.1"
 
-<<<<<<< HEAD
-react-native-webview@^11.26.0, react-native-webview@>=7.0.0:
-  version "11.26.0"
-  resolved "https://registry.npmjs.org/react-native-webview/-/react-native-webview-11.26.0.tgz"
-  integrity sha512-4T4CKRm8xlaQDz9h/bCMPGAvtkesrhkRWqCX9FDJEzBToaVUIsV0ZOqtC4w/JSnCtFKKYiaC1ReJtCGv+4mFeQ==
-  dependencies:
-    escape-string-regexp "2.0.0"
-    invariant "2.2.4"
-
-react-native-youtube-iframe@^2.2.2:
-  version "2.2.2"
-  resolved "https://registry.npmjs.org/react-native-youtube-iframe/-/react-native-youtube-iframe-2.2.2.tgz"
-  integrity sha512-og2KW21kCwAHKcnWoyWWBYC6J2Xtqjjwpghhoy9G6zfwZkr8Ej27BbQIAKM/TheJJUZ5/YUrqsgqAdnFYDx5TQ==
-  dependencies:
-    events "^3.2.0"
-
-react-native@*, "react-native@^0.0.0-0 || 0.60 - 0.71 || 1000.0.0", react-native@>=0.60, react-native@0.71.7:
+react-native@*, "react-native@^0.0.0-0 || 0.60 - 0.71 || 1000.0.0", react-native@0.71.7:
   version "0.71.7"
   resolved "https://registry.npmjs.org/react-native/-/react-native-0.71.7.tgz"
   integrity sha512-Id6iRLS581fJMFGbBl1jP5uSmjExtGOvw5Gvh7694zISXjsRAsFMmU+izs0pyCLqDBoHK7y4BT7WGPGw693nYw==
-=======
-"react-native@*", "react-native@^0.0.0-0 || 0.60 - 0.71 || 1000.0.0", "react-native@0.71.7":
-  "integrity" "sha512-Id6iRLS581fJMFGbBl1jP5uSmjExtGOvw5Gvh7694zISXjsRAsFMmU+izs0pyCLqDBoHK7y4BT7WGPGw693nYw=="
-  "resolved" "https://registry.npmjs.org/react-native/-/react-native-0.71.7.tgz"
-  "version" "0.71.7"
->>>>>>> 1fb1590ff1df3228473c787077702f587635bb8c
   dependencies:
     "@jest/create-cache-key-function" "^29.2.1"
     "@react-native-community/cli" "10.2.2"
@@ -6372,17 +6307,10 @@ react-native@*, "react-native@^0.0.0-0 || 0.60 - 0.71 || 1000.0.0", react-native
     "object-assign" "^4.1.1"
     "react-is" "^16.12.0 || ^17.0.0 || ^18.0.0"
 
-<<<<<<< HEAD
-react@*, "react@^16.0.0 || ^17.0.0 || ^18.0.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0", react@>=16.8, react@>=16.8.6, react@>=17.0.0, react@18.2.0:
+react@*, "react@^16.0.0 || ^17.0.0 || ^18.0.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0", react@>=16.8, react@>=17.0.0, react@18.2.0:
   version "18.2.0"
   resolved "https://registry.npmjs.org/react/-/react-18.2.0.tgz"
   integrity sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==
-=======
-"react@*", "react@^16.0.0 || ^17.0.0 || ^18.0.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@>=16.8", "react@>=17.0.0", "react@18.2.0":
-  "integrity" "sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ=="
-  "resolved" "https://registry.npmjs.org/react/-/react-18.2.0.tgz"
-  "version" "18.2.0"
->>>>>>> 1fb1590ff1df3228473c787077702f587635bb8c
   dependencies:
     "loose-envify" "^1.1.0"
 

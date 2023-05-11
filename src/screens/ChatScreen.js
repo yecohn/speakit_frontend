@@ -1,36 +1,51 @@
+// ChatScreen.js
+
+// Packages import
 import {
   View,
   TextInput,
   FlatList,
+  Text,
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
 import React, { useState, useEffect } from "react";
-import Message from "../components/Message";
-// import messages from "../../assets/data/messages.json";
-import Microphone from "../components/InputMic";
 import Constants from "expo-constants";
 import { Ionicons } from "@expo/vector-icons";
 
+// Component import
+import Message from "../components/Message";
+import Microphone from "../components/InputMic";
+
+
 const ChatScreen = ({ route, navigaton }) => {
-  const [messages, setMessages] = useState([]);
+
   const { user_id } = route.params;
+  
+  const [messages, setMessages] = useState([]);
+  const [cache, setCache] = useState(false);
+  const [cacheInputText, setCacheInputText] = useState("");
   const [needFetch, setNeedFetch] = useState(false);
   const [inputText, setInputText] = useState("");
 
   useEffect(() => {
+
     async function FetchData() {
+
       const response = await fetch("http://localhost:8000/chat/" + user_id, {
         method: "GET",
       });
+      
       const json = await response.json();
       setMessages(json.messages);
-      console.log("fetch data");
+      setCache(false);
     }
     FetchData();
+    
   }, [needFetch]);
 
   async function PostMessage(newmessage) {
+    
     await fetch("http://localhost:8000/chat/" + user_id + "/post", {
       method: "POST",
       headers: {
@@ -41,34 +56,46 @@ const ChatScreen = ({ route, navigaton }) => {
   }
 
   const handleSend = async () => {
-    if (inputText) {
-      const newMessage = {
-        user: { id: user_id, username: "Me" },
-        message: inputText,
-        createdAt: Date.now(),
-      };
-      console.log(inputText);
-      const json = JSON.stringify(newMessage);
-      await PostMessage(json);
-      // send message form to server
-      setInputText("");
-      setNeedFetch(!needFetch);
-      console.log("need fetch" + needFetch);
-    } else {
-      console.log("empty message");
-    }
+
+    if (!inputText) return;
+    const newMessage = {
+      user: { id: user_id, username: "Me" },
+      origin: 'user',
+      text: inputText,
+      createdAt: Date.now(),
+    };
+    setCacheInputText(inputText);
+    setInputText("");
+    setCache(true);
+
+    const json = JSON.stringify(newMessage);
+    await PostMessage(json);
+    setNeedFetch(!needFetch);
+  };
+
+  const cacheMessage = () => {
+    const cacheMessage = {
+      user: { id: user_id, username: "Me" },
+      origin: 'user',
+      text: cacheInputText,
+      createdAt: Date.now(),
+    };
+    return (
+      <View style={styles.messagesContainer}>
+        <Message message={cacheMessage} />
+      </View>
+    ); 
   };
 
   return (
     <View style={styles.container}>
       <FlatList
         data={messages}
-        renderItem={({ item }) => <Message message={item} user_id={user_id} />}
+        renderItem={({ item }) => <Message message={item} />}
         style={styles.chat}
         inverted
-        contentContainerStyle={styles.messagesContainer}
-      />
-
+        contentContainerStyle={styles.messagesContainer}/>
+      {cache ? cacheMessage() : null}
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
@@ -81,9 +108,7 @@ const ChatScreen = ({ route, navigaton }) => {
 
         <TouchableOpacity
           style={styles.sendButton}
-          onPress={handleSend}
-          onChangeText={setInputText}
-        >
+          onPress={handleSend}>
           <Ionicons name="send-outline" size={24} color="white" />
         </TouchableOpacity>
       </View>
