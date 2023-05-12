@@ -21,7 +21,12 @@ import Microphone from "../components/InputMic";
 const ChatScreen = ({ route, navigaton }) => {
 
   const { user_id } = route.params;
-  
+  const first_message = {
+    user: { id: user_id, username: "Me" },
+    origin: 'user',
+    text: 'Message pour meubler quand il n y a pas encore de chat',
+    createdAt: Date.now(),
+  };
   const [messages, setMessages] = useState([]);
   const [cache, setCache] = useState(false);
   const [cacheInputText, setCacheInputText] = useState("");
@@ -37,7 +42,12 @@ const ChatScreen = ({ route, navigaton }) => {
       });
       
       const json = await response.json();
-      setMessages(json.messages);
+      if(json.messages.length == 0) {
+        setMessages(first_message);
+      }
+      else {
+        setMessages(json.messages);
+      }
       setCache(false);
     }
     FetchData();

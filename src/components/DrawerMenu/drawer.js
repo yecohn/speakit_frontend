@@ -17,6 +17,14 @@ const CustomDrawerContent = (props) => {
         }
         FetchUserId();
     }, []);
+
+    async function handleRestartChat() {
+      const response = await fetch("http://localhost:8000/chat/" + user__id + "/reset", {
+          method: "GET",
+      });
+      const response_json = await response.json();
+    };
+
         
     return (
         <DrawerContentScrollView {...props} contentContainerStyle={styles.drawerContent}>
@@ -34,6 +42,10 @@ const CustomDrawerContent = (props) => {
         <TouchableOpacity style={styles.drawerItem} onPress={() => navigation.navigate('Topics', {user_id: user__id})}>
             <Icon name="book-open" size={24} style={styles.drawerIcon} />
             <Text style={styles.drawerText}>Topics</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.drawerItem} onPress={() => handleRestartChat()}>
+            <Icon name="reload" size={24} style={styles.drawerIcon} />
+            <Text style={styles.drawerText}>Reset chat</Text>
         </TouchableOpacity>
         </DrawerContentScrollView>
     );
