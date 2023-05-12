@@ -17,18 +17,33 @@ const ChatScreen = ({ route, navigaton }) => {
   const { user_id } = route.params;
   const [needFetch, setNeedFetch] = useState(false);
   const [inputText, setInputText] = useState("");
+  const ws = new WebSocket("ws://localhost:8000/ws");
+  // useEffect(() => {
+  //   async function FetchData() {
+  //     const response = await fetch("http://localhost:8000/chat/" + user_id, {
+  //       method: "GET",
+  //     });
+  //     const json = await response.json();
+  //     setMessages(json.messages);
+  //     console.log("fetch data");
+  //   }
+  //   FetchData();
+  // }, [needFetch]);
 
   useEffect(() => {
-    async function FetchData() {
-      const response = await fetch("http://localhost:8000/chat/" + user_id, {
-        method: "GET",
-      });
-      const json = await response.json();
-      setMessages(json.messages);
-      console.log("fetch data");
-    }
-    FetchData();
-  }, [needFetch]);
+    ws.onopen = () => {
+      console.log("connected");
+    };
+    ws.onmessage = (e) => {
+      const message = JSON.parse(e.data);
+      console.log(message);
+      setMessages((prev) => [...prev, message]);
+    };
+    () => ws.send(JSON.stringify({ user_id: user_id }));
+    ws.onclose = () => {
+      console.log("disconnected");
+    };
+  }, );
 
   async function PostMessage(newmessage) {
     await fetch("http://localhost:8000/chat/" + user_id + "/post", {
@@ -40,18 +55,25 @@ const ChatScreen = ({ route, navigaton }) => {
     });
   }
 
+  const handleInputText = (newText) => { 
+    setInputText(newText);
+    ws.send(inputText)
+  }
+
   const handleSend = async () => {
     if (inputText) {
       const newMessage = {
         user: { id: user_id, username: "Me" },
-        message: inputText,
+        text: inputText,
         createdAt: Date.now(),
       };
       console.log(inputText);
       const json = JSON.stringify(newMessage);
-      await PostMessage(json);
+      // await PostMessage(json);
       // send message form to server
       setInputText("");
+      setMessages((prev) => [...prev, newMessage]);
+      ws.send(JSON.stringify(newMessage));
       setNeedFetch(!needFetch);
       console.log("need fetch" + needFetch);
     } else {
@@ -74,7 +96,8 @@ const ChatScreen = ({ route, navigaton }) => {
           style={styles.input}
           placeholder="Type a message"
           defaultValue={inputText}
-          onChangeText={(newText) => setInputText(newText)}
+          // onChangeText={(newText) => setInputText(newText)}
+          onChangeText={(newText) => handleInputText(newText)}
         />
 
         <Microphone />
@@ -104,7 +127,7 @@ const styles = StyleSheet.create({
     paddingTop: Constants.statusBarHeight,
   },
   messagesContainer: {
-    flexDirection:'column-reverse',
+    flexDirection: "column-reverse",
     paddingHorizontal: 16,
     paddingBottom: 16,
   },
