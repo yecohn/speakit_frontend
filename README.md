@@ -16,3 +16,8 @@ npm install react-native-youtube-iframe
 
 For thumbnail of video:
 npm install expo-image@~1.0.0
+
+For list of choices (level, language):
+
+npm install @react-native-picker/picker --save
+npm install @react-native-picker/picker@2.4.8

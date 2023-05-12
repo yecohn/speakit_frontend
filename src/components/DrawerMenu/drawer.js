@@ -23,14 +23,6 @@ const CustomDrawerContent = (props) => {
         <View style={styles.drawerHeader}>
             <Icon name="menu" size={30} onPress={() => navigation.closeDrawer()} />
         </View>
-        {/* <TouchableOpacity style={styles.drawerItem} onPress={() => navigation.navigate('SignIn')}>
-            <Icon name="login" size={24} style={styles.drawerIcon} />
-            <Text style={styles.drawerText}>Sign In</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.drawerItem} onPress={() => navigation.navigate('Register')}>
-            <Icon name="account-plus" size={24} style={styles.drawerIcon} />
-            <Text style={styles.drawerText}>Register</Text>
-        </TouchableOpacity> */}
         <TouchableOpacity style={styles.drawerItem} onPress={() => navigation.navigate('Chat', {user_id: user__id})}>
             <Icon name="chat" size={24} style={styles.drawerIcon} />
             <Text style={styles.drawerText}>Chat</Text>

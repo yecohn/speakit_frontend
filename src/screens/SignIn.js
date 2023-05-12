@@ -2,10 +2,6 @@ import React, { useState } from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { Input, Button } from "react-native-elements";
 import { storeData } from "../tools/asyncStorage";
-// import { AuthSession } from 'expo';
-// import * as Google from 'expo-google-app-auth';
-
-// const CLIENT_ID = 'your-google-client-id';
 
 const SignIn = ({ navigation }) => {
   const [password, setPassword] = useState("");
@@ -63,10 +59,8 @@ const SignIn = ({ navigation }) => {
           secureTextEntry
         />
         <Button title="Sign In" onPress={handleSignIn} />
-        <Text>
-          need to register first ?
-          <Button title="Register" onPress={handleRegister} />
-        </Text>
+        <Text>need to register first ?</Text>
+        <Button title="Register" onPress={handleRegister} />
       </View>
     </>
   );
