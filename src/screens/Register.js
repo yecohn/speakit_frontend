@@ -24,7 +24,7 @@ const Register = ({ navigation }) => {
           Accept: "application/json",
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ username, password, level, email, targetLanguage, targetLanguage }),
+        body: JSON.stringify({ username, password, level, email, nativeLanguage, targetLanguage }),
       });
       
       // const responsejson = await response.json();

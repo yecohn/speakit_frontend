@@ -1,0 +1,13 @@
+{
+    "type": "service_account",
+    "project_id": "gpu-machine-383109",
+    "private_key_id": "a6f61f01b171a9768f0de0c60bede603762446eb",
+    "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEuQIBADANBgkqhkiG9w0BAQEFAASCBKMwggSfAgEAAoIBAQDLKwSxM3TBtabr\nPWITs25i50PAgpyXJEfIUVVA0kboPeLJnSfU0OaZg/pVWcm4ekhMedj1Equ6aV9k\nm2pUAYmgG0CC+/nFb8Uh1CJiQahIzhVDk3ansGh/E+5v3TNjypH4/4Swp5gzdO2h\n+r8e3Xb+Fud9bs/suI2xcdd5U4OxMlWWchTOKXPRR5ROb60JjxzPtisZW3YbVAfT\nGPnwlhWUJNSCNSvuu1bwySc8heTyGjPCd38ML555LC5kgS/oH8y4yyL/PzaE2XwI\nhHCqDO8/pLTtQs6ivw1VtyI/jzgeYsqfMZJwZvkEg9XZ8ozbeapFUc6O+CshWzb7\nmX7G6lLPAgMBAAECgf5lVdbunQy2fTr5+NFrUyJQLselGFWLgCH1OQ/tf5KtQhG3\n+0Q3cnYfP49xjSWEH5Lbl9q+QeDliJsFIzz6NId7QFmO/1+R0fNjDIi6lia+H6iq\n2FINEmVWGRT+8o/I3flmyVEercNZN3DGgqNoAd6OToDf3aM//LH6BT+f6MkEddDt\ncnNvIziYoBW6zoyNYJVXgpw90PkgcTr4Ue0qDawgu4D/nd7P3WGEiEl9srJPAuit\nO8DQwSynZKO65EY1Lf+ZtL/2/fEpAhyiwPRlLPhw7+E0yvLoX7Iq9G/osvHXRn0I\nJT0d8u525uFZZBQPvTKTWD8PFcTY+rRHxcPvqQKBgQDym0eNJFcNYmlb0p4DJjiZ\nT65ErsccSz2UKLyo+pc08wct3okO85F3rUVF88ch4SU52VEztH4eyrDsjNrZUelo\ntCx0miruVP0AIUxYBgLT7eJrs438Z1GpHoYiF27EuhbS42vqC34h6ZDYjJGP2BxT\nqzmQmPuKZhWDQVlHbpl2ewKBgQDWYlxDjiE7nFjB8oxdAdO/xATVw1L9JEY2xoLF\nzznuigL0fvAZG2ljSEO8HYa3vFyzeQU3wvzOjinBtSfGBYWbSwblYux1gF2mmO/4\nl0fWQ2DmuTxzpvN9DTukNdRUWSw0e8eBbxCgP0YCsQy9rAX5nDUe/tvsl+2gAwWZ\nAI9uvQKBgD40mnASNU/1P9aPdnyQPErzJ1ftCJi0oiFvIJCjUEn/VoPoX3Q5976b\n6vs4uoJxXD4s/qknSn9SsXK12xeF7Tcvm4Z6US+zEvwJja20PN1iTYAYFfv18fZP\nIU10fK5smJWSQoVMVRcU8FLWGCyt2PWLHcN5tmWSL0nsY5vxO+ApAoGAVNd4TAPj\ngwPM3HRwuB4Q/sNEZpR2M1g3sVW+SypHcu+LW9cgjc8bVf8zTy8gMXaJ+Tzbo8W2\n5se8HrzikKt+xIZcpEsR6S5z4YqE7YxxEYp4vtZv5hUcJ1ElWUc0UG054UtbGQ4r\nNj/UJRyMPkPl2XLIUwvpXSiDEeAgRvzBxsECgYAcP6mRlAOMLOjshNqklgfvBXlC\nY4i4IMXyHbfwDwxN04BQpr31feC+XecTXI9ZenXUO18jNylLYcYmOo0/CRJdk7/V\nHz/6BzpwvD7q0l//+iresmRzRGnf7+y0YfOUYLEWFv/1VIzhclfCJ14gDlNfHMl3\nwYF8Nd9NuzaRlFXIQQ==\n-----END PRIVATE KEY-----\n",
+    "client_email": "meir-518@gpu-machine-383109.iam.gserviceaccount.com",
+    "client_id": "101616507604735261846",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/meir-518%40gpu-machine-383109.iam.gserviceaccount.com",
+    "universe_domain": "googleapis.com"
+}

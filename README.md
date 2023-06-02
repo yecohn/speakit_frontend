@@ -21,3 +21,7 @@ For list of choices (level, language):
 
 npm install @react-native-picker/picker --save
 npm install @react-native-picker/picker@2.4.8
+
+For translation using Google or Microsoft API:
+
+npm i react-native-power-translator --save
