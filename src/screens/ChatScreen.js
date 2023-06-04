@@ -1,52 +1,54 @@
+// ChatScreen.js
+
+// Packages import
 import {
   View,
   TextInput,
   FlatList,
+  Text,
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
 import React, { useState, useEffect } from "react";
-import Message from "../components/Message";
-// import messages from "../../assets/data/messages.json";
-import Microphone from "../components/InputMic";
 import Constants from "expo-constants";
 import { Ionicons } from "@expo/vector-icons";
 
+// Component import
+import Message from "../components/Message";
+import Microphone from "../components/InputMic";
+import { set } from "react-native-reanimated";
+
 const ChatScreen = ({ route, navigaton }) => {
-  const [messages, setMessages] = useState([]);
   const { user_id } = route.params;
+  const first_message = {
+    user: { id: user_id, username: "Me" },
+    origin: "user",
+    text: "Message pour meubler quand il n y a pas encore de chat",
+    createdAt: Date.now(),
+  };
+  const [messages, setMessages] = useState([]);
+  const [cache, setCache] = useState(false);
+  const [cacheInputText, setCacheInputText] = useState("");
   const [needFetch, setNeedFetch] = useState(false);
   const [inputText, setInputText] = useState("");
-  const ws = new WebSocket("ws://localhost:8000/ws");
-  // useEffect(() => {
-  //   async function FetchData() {
-  //     const response = await fetch("http://localhost:8000/chat/" + user_id, {
-  //       method: "GET",
-  //     });
-  //     const json = await response.json();
-  //     setMessages(json.messages);
-  //     console.log("fetch data");
-  //   }
-  //   FetchData();
-  // }, [needFetch]);
 
   useEffect(() => {
-    ws.onopen = () => {
-      console.log("connected");
-    };
-    ws.onmessage = (e) => {
-      const message = JSON.parse(e.data);
-      console.log(message);
-      setMessages((prev) => [...prev, message]);
-    };
-    () => ws.send(JSON.stringify({ user_id: user_id }));
-    ws.onclose = () => {
-      console.log("disconnected");
-    };
-  }, );
+    async function FetchData() {
+      const response = await fetch("http://35.236.62.168/chat/" + user_id, {
+        method: "GET",
+      });
+
+      const json = await response.json();
+      console.log(json);
+      setMessages(json.messages);
+    }
+    setCache(false);
+
+    FetchData();
+  }, [needFetch]);
 
   async function PostMessage(newmessage) {
-    await fetch("http://localhost:8000/chat/" + user_id + "/post", {
+    await fetch("http://35.236.62.168/chat/" + user_id + "/post", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -55,42 +57,51 @@ const ChatScreen = ({ route, navigaton }) => {
     });
   }
 
-  const handleInputText = (newText) => { 
+  const handleInputText = (newText) => {
     setInputText(newText);
-    ws.send(inputText)
-  }
+  };
 
   const handleSend = async () => {
-    if (inputText) {
-      const newMessage = {
-        user: { id: user_id, username: "Me" },
-        text: inputText,
-        createdAt: Date.now(),
-      };
-      console.log(inputText);
-      const json = JSON.stringify(newMessage);
-      // await PostMessage(json);
-      // send message form to server
-      setInputText("");
-      setMessages((prev) => [...prev, newMessage]);
-      ws.send(JSON.stringify(newMessage));
-      setNeedFetch(!needFetch);
-      console.log("need fetch" + needFetch);
-    } else {
-      console.log("empty message");
-    }
+    if (!inputText) return;
+    const newMessage = {
+      user: { id: user_id, username: "Me" },
+      origin: "user",
+      text: inputText,
+      createdAt: Date.now(),
+    };
+    setCacheInputText(inputText);
+    setInputText("");
+    setCache(true);
+
+    const json = JSON.stringify(newMessage);
+    await PostMessage(json);
+    setNeedFetch(!needFetch);
+  };
+
+  const cacheMessage = () => {
+    const cacheMessage = {
+      user: { id: user_id, username: "Me" },
+      origin: "user",
+      text: cacheInputText,
+      createdAt: Date.now(),
+    };
+    return (
+      <View style={styles.messagesContainer}>
+        <Message message={cacheMessage} />
+      </View>
+    );
   };
 
   return (
     <View style={styles.container}>
       <FlatList
         data={messages}
-        renderItem={({ item }) => <Message message={item} user_id={user_id} />}
+        renderItem={({ item }) => <Message message={item} />}
         style={styles.chat}
         inverted
         contentContainerStyle={styles.messagesContainer}
       />
-
+      {cache ? cacheMessage() : null}
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
@@ -102,11 +113,7 @@ const ChatScreen = ({ route, navigaton }) => {
 
         <Microphone />
 
-        <TouchableOpacity
-          style={styles.sendButton}
-          onPress={handleSend}
-          onChangeText={setInputText}
-        >
+        <TouchableOpacity style={styles.sendButton} onPress={handleSend}>
           <Ionicons name="send-outline" size={24} color="white" />
         </TouchableOpacity>
       </View>

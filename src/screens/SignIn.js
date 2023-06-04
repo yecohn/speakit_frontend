@@ -2,10 +2,6 @@ import React, { useState } from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { Input, Button } from "react-native-elements";
 import { storeData } from "../tools/asyncStorage";
-// import { AuthSession } from 'expo';
-// import * as Google from 'expo-google-app-auth';
-
-// const CLIENT_ID = 'your-google-client-id';
 
 const SignIn = ({ navigation }) => {
   const [password, setPassword] = useState("");
@@ -13,12 +9,12 @@ const SignIn = ({ navigation }) => {
 
   const handleSignIn = async () => {
     try {
-      console.log("start fetching");
+      console.log("Signing in");
       form = new FormData();
       form.append("username", username);
       form.append("password", password);
 
-      const response = await fetch("http://localhost:8000/login", {
+      const response = await fetch("http://35.236.62.168/login", {
         method: "POST",
         headers: {
           "Content-Type": "multipart/form-data",
@@ -31,10 +27,11 @@ const SignIn = ({ navigation }) => {
         const userId = json.user_id;
         console.log(userId);
         storeData("user_id", userId);
-        navigation.navigate('DrawerStack', {
-          screen: 'Chat', params: {
+        navigation.navigate("DrawerStack", {
+          screen: "Chat",
+          params: {
             user_id: userId,
-          }
+          },
         });
       } else {
         throw new Error("Something went wrong");
@@ -63,10 +60,8 @@ const SignIn = ({ navigation }) => {
           secureTextEntry
         />
         <Button title="Sign In" onPress={handleSignIn} />
-        <Text>
-          need to register first ?
-          <Button title="Register" onPress={handleRegister} />
-        </Text>
+        <Text>need to register first ?</Text>
+        <Button title="Register" onPress={handleRegister} />
       </View>
     </>
   );

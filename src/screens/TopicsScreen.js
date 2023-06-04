@@ -21,21 +21,7 @@ const TopicsScreen = ({ route, navigation }) => {
   //         video: "https://www.youtube.com/watch?v=0pThnRneDjw",
   //         transcript: "This is the transcript for the first topic",
   //     },
-  //     {
-  //         id: 2,
-  //         name: "Topic 2",
-  //         description: "This is the second topic",
-  //         video: "https://www.youtube.com/watch?v=0pThnRneDjw",
-  //         transcript: "This is the transcript for the second topic",
-  //     },
-  //     {
-  //         id: 3,
-  //         name: "Topic 3",
-  //         description: "This is the third topic",
-  //         video: "https://www.youtube.com/watch?v=0pThnRneDjw",
-  //         transcript: "This is the transcript for the third topic",
-  //     },
-  // ];
+
   const [needFetch, setNeedFetch] = useState(false);
   const [topics, setTopics] = useState([]);
 
@@ -43,11 +29,10 @@ const TopicsScreen = ({ route, navigation }) => {
 
   useEffect(() => {
     async function FetchData() {
-      const response = await fetch("http://localhost:8000/topics/", {
+      const response = await fetch("http://35.236.62.168/topics/", {
         method: "GET",
       });
       const json = await response.json();
-      console.log(JSON.stringify(json));
       setTopics(json);
     }
     FetchData();
@@ -56,7 +41,7 @@ const TopicsScreen = ({ route, navigation }) => {
   // component triggerTopicChat tells the server with address to specific topic to make an action with some api call
   const triggerTopicChat = async (topic_id) => {
     try {
-      response = await fetch("http://localhost:8000/topics/" + topic_id, {
+      response = await fetch("http://35.236.62.168/topics/" + topic_id, {
         method: "GET",
       });
       const json = await response.json();
@@ -66,10 +51,23 @@ const TopicsScreen = ({ route, navigation }) => {
     }
   };
 
+  function thumbnail(link) {
+    const video_id = link.substring(link.indexOf("=") + 1);
+    const thumbnail = [
+      "http://img.youtube.com/vi/",
+      video_id,
+      "/hqdefault.jpg",
+    ].join("");
+    // const image = require();
+    return thumbnail;
+  }
+
+  // function that creates a list of images where each element requires an image from a uri given by thumbnail function
+
   const handleOnPress = async (item, navigation) => {
-    Linking.openURL(item.link);
     await triggerTopicChat(item.topic_id);
-    await askQuestionTranscript(item.transcript);
+    Linking.openURL(item.link);
+    // await askQuestionTranscript(item.transcript);
     navigation.navigate("Chat", {
       user_id: user_id,
     });

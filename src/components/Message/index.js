@@ -6,11 +6,9 @@ import dayjs from "dayjs";
 
 dayjs.extend(relativeTime);
 
-
-const Message = ({ message, user_id }) => {
-
+const Message = ({ message }) => {
   const isMyMessage = () => {
-    return message.user.id === user_id;
+    return message.origin === "user";
   };
 
   return (
@@ -36,8 +34,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     maxWidth: "80%",
 
-		// Shadows
-    shadowColor: '#000',
+    // Shadows
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 1,

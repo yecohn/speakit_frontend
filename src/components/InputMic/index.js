@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { TouchableOpacity, Text, Image, StyleSheet, View, Dimensions } from "react-native";
+import {
+  TouchableOpacity,
+  Text,
+  Image,
+  StyleSheet,
+  View,
+  Dimensions,
+} from "react-native";
 import { Audio } from "expo-av";
 import * as FileSystem from "expo-file-system";
 // import { Permissions } from "expo-permissions";
 import { PermissionsAndroid } from "react-native";
-import { Ionicons } from '@expo/vector-icons';
-
-
+import { Ionicons } from "@expo/vector-icons";
 
 const Microphone = () => {
   const [recording, setRecording] = useState(null);
@@ -38,17 +43,16 @@ const Microphone = () => {
     }
   }
 
-  
-  
-
   const startRecording = async () => {
-      try {
-        await requestRecordAudioPermission();
-        const {recording} = await Audio.Recording.createAsync( Audio.RecordingOptionsPresets.HIGH_QUALITY);
-        setRecording(recording);
-      } catch (err) {
-        console.error("Failed to start recording", err);
-      }
+    try {
+      await requestRecordAudioPermission();
+      const { recording } = await Audio.Recording.createAsync(
+        Audio.RecordingOptionsPresets.HIGH_QUALITY
+      );
+      setRecording(recording);
+    } catch (err) {
+      console.error("Failed to start recording", err);
+    }
   };
 
   const stopRecording = async () => {
@@ -57,7 +61,6 @@ const Microphone = () => {
       const info = await FileSystem.getInfoAsync(recording.getURI());
       console.log(`File size: ${info.size}`);
       setRecording(undefined);
-
 
       await loadSound();
       if (Boolean(sound)) {
@@ -70,17 +73,14 @@ const Microphone = () => {
 
   const uploadRecording = async () => {
     const data = new FormData();
-    data.append("audio_input", {recording});
-    const res = await fetch(
-      "http://localhost:8000/upload",
-      {
-        method: "POST",
-        body: data,
-        headers: {
-          "Content-Type": "multipart/form-data; ",
-        },
-      }
-    );
+    data.append("audio_input", { recording });
+    const res = await fetch("http://35.236.62.168/upload", {
+      method: "POST",
+      body: data,
+      headers: {
+        "Content-Type": "multipart/form-data; ",
+      },
+    });
     const resJson = await res.json();
     if (resJson.status === "success") {
       console.log("Upload successful");
@@ -116,20 +116,25 @@ const Microphone = () => {
 
   return (
     <>
-      {<TouchableOpacity 
+      {
+        <TouchableOpacity
           onPressIn={recording ? undefined : startRecording}
           onPressOut={recording ? stopRecording : undefined}
-          style={styles.microphoneButton}> 
+          style={styles.microphoneButton}
+        >
           <Ionicons name="mic-outline" size={24} color="gray" />
-        </TouchableOpacity>}
-      {Boolean(sound) && <TouchableOpacity onPress={playRecording}>
-              <Text>Play recording</Text>
-            </TouchableOpacity>}
+        </TouchableOpacity>
+      }
+      {Boolean(sound) && (
+        <TouchableOpacity onPress={playRecording}>
+          <Text>Play recording</Text>
+        </TouchableOpacity>
+      )}
     </>
   );
 };
 
-const { width, height } = Dimensions.get('window');
+const { width, height } = Dimensions.get("window");
 const buttonSize = Math.min(width, height) * 0.12;
 
 const styles = StyleSheet.create({
