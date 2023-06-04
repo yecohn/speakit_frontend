@@ -14,7 +14,7 @@ const SignIn = ({ navigation }) => {
       form.append("username", username);
       form.append("password", password);
 
-      const response = await fetch("http://localhost:8000/login", {
+      const response = await fetch("http://35.236.62.168/login", {
         method: "POST",
         headers: {
           "Content-Type": "multipart/form-data",
@@ -27,10 +27,11 @@ const SignIn = ({ navigation }) => {
         const userId = json.user_id;
         console.log(userId);
         storeData("user_id", userId);
-        navigation.navigate('DrawerStack', {
-          screen: 'Chat', params: {
+        navigation.navigate("DrawerStack", {
+          screen: "Chat",
+          params: {
             user_id: userId,
-          }
+          },
         });
       } else {
         throw new Error("Something went wrong");

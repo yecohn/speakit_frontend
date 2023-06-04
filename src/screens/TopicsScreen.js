@@ -13,7 +13,6 @@ import React, { useState, useEffect } from "react";
 // topics object that includes three topics with a topic name, id, short description, and link to youtube video
 
 const TopicsScreen = ({ route, navigation }) => {
-  
   // const topics = [
   //     {
   //         id: 1,
@@ -30,7 +29,7 @@ const TopicsScreen = ({ route, navigation }) => {
 
   useEffect(() => {
     async function FetchData() {
-      const response = await fetch("http://localhost:8000/topics/", {
+      const response = await fetch("http://35.236.62.168/topics/", {
         method: "GET",
       });
       const json = await response.json();
@@ -42,7 +41,7 @@ const TopicsScreen = ({ route, navigation }) => {
   // component triggerTopicChat tells the server with address to specific topic to make an action with some api call
   const triggerTopicChat = async (topic_id) => {
     try {
-      response = await fetch("http://localhost:8000/topics/" + topic_id, {
+      response = await fetch("http://35.236.62.168/topics/" + topic_id, {
         method: "GET",
       });
       const json = await response.json();
@@ -52,18 +51,18 @@ const TopicsScreen = ({ route, navigation }) => {
     }
   };
 
+  function thumbnail(link) {
+    const video_id = link.substring(link.indexOf("=") + 1);
+    const thumbnail = [
+      "http://img.youtube.com/vi/",
+      video_id,
+      "/hqdefault.jpg",
+    ].join("");
+    // const image = require();
+    return thumbnail;
+  }
 
-
-    function thumbnail(link) {
-        const video_id = link.substring(link.indexOf('=')+1);
-        const thumbnail = ['http://img.youtube.com/vi/', video_id, '/hqdefault.jpg'].join('');
-        // const image = require();
-        return thumbnail;
-    };
-
-
-    // function that creates a list of images where each element requires an image from a uri given by thumbnail function
-
+  // function that creates a list of images where each element requires an image from a uri given by thumbnail function
 
   const handleOnPress = async (item, navigation) => {
     await triggerTopicChat(item.topic_id);

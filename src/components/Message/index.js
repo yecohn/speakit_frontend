@@ -10,15 +10,13 @@ TranslatorConfiguration.setConfig(ProviderTypes.Google, 'a6f61f01b171a9768f0de0c
 
 dayjs.extend(relativeTime);
 
-
 const Message = ({ message }) => {
 
   const [translation, setTranslation] = useState('');
   const [showTranslation, setShowTranslation] = useState(false);
 
-  // Check if the message is from the user or the machine for style purposes
   const isMyMessage = () => {
-    return message.origin === 'user';
+    return message.origin === "user";
   };
 
   // Split the message into words
@@ -69,8 +67,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     maxWidth: "80%",
 
-		// Shadows
-    shadowColor: '#000',
+    // Shadows
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 1,

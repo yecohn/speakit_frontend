@@ -16,15 +16,14 @@ import { Ionicons } from "@expo/vector-icons";
 // Component import
 import Message from "../components/Message";
 import Microphone from "../components/InputMic";
-
+import { set } from "react-native-reanimated";
 
 const ChatScreen = ({ route, navigaton }) => {
-
   const { user_id } = route.params;
   const first_message = {
     user: { id: user_id, username: "Me" },
-    origin: 'user',
-    text: 'Message pour meubler quand il n y a pas encore de chat',
+    origin: "user",
+    text: "Message pour meubler quand il n y a pas encore de chat",
     createdAt: Date.now(),
   };
   const [messages, setMessages] = useState([]);
@@ -34,29 +33,22 @@ const ChatScreen = ({ route, navigaton }) => {
   const [inputText, setInputText] = useState("");
 
   useEffect(() => {
-
     async function FetchData() {
-
-      const response = await fetch("http://localhost:8000/chat/" + user_id, {
+      const response = await fetch("http://35.236.62.168/chat/" + user_id, {
         method: "GET",
       });
-      
+
       const json = await response.json();
-      if(json.messages.length == 0) {
-        setMessages(first_message);
-      }
-      else {
-        setMessages(json.messages);
-      }
-      setCache(false);
+      console.log(json);
+      setMessages(json.messages);
     }
+    setCache(false);
+
     FetchData();
-    
   }, [needFetch]);
 
   async function PostMessage(newmessage) {
-    
-    await fetch("http://localhost:8000/chat/" + user_id + "/post", {
+    await fetch("http://35.236.62.168/chat/" + user_id + "/post", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -65,12 +57,15 @@ const ChatScreen = ({ route, navigaton }) => {
     });
   }
 
-  const handleSend = async () => {
+  const handleInputText = (newText) => {
+    setInputText(newText);
+  };
 
+  const handleSend = async () => {
     if (!inputText) return;
     const newMessage = {
       user: { id: user_id, username: "Me" },
-      origin: 'user',
+      origin: "user",
       text: inputText,
       createdAt: Date.now(),
     };
@@ -86,7 +81,7 @@ const ChatScreen = ({ route, navigaton }) => {
   const cacheMessage = () => {
     const cacheMessage = {
       user: { id: user_id, username: "Me" },
-      origin: 'user',
+      origin: "user",
       text: cacheInputText,
       createdAt: Date.now(),
     };
@@ -94,7 +89,7 @@ const ChatScreen = ({ route, navigaton }) => {
       <View style={styles.messagesContainer}>
         <Message message={cacheMessage} />
       </View>
-    ); 
+    );
   };
 
   return (
@@ -104,21 +99,21 @@ const ChatScreen = ({ route, navigaton }) => {
         renderItem={({ item }) => <Message message={item} />}
         style={styles.chat}
         inverted
-        contentContainerStyle={styles.messagesContainer}/>
+        contentContainerStyle={styles.messagesContainer}
+      />
       {cache ? cacheMessage() : null}
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
           placeholder="Type a message"
           defaultValue={inputText}
-          onChangeText={(newText) => setInputText(newText)}
+          // onChangeText={(newText) => setInputText(newText)}
+          onChangeText={(newText) => handleInputText(newText)}
         />
 
         <Microphone />
 
-        <TouchableOpacity
-          style={styles.sendButton}
-          onPress={handleSend}>
+        <TouchableOpacity style={styles.sendButton} onPress={handleSend}>
           <Ionicons name="send-outline" size={24} color="white" />
         </TouchableOpacity>
       </View>
@@ -139,7 +134,7 @@ const styles = StyleSheet.create({
     paddingTop: Constants.statusBarHeight,
   },
   messagesContainer: {
-    flexDirection:'column-reverse',
+    flexDirection: "column-reverse",
     paddingHorizontal: 16,
     paddingBottom: 16,
   },
