@@ -1,17 +1,31 @@
 // src/components/Message/index.js
 import { useState } from 'react';
 
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { 
+  View, 
+  Text, 
+  StyleSheet, 
+  TouchableOpacity, 
+  Modal 
+} from "react-native";
 import relativeTime from "dayjs/plugin/relativeTime";
 import dayjs from "dayjs";
+import { set } from 'react-native-reanimated';
 
-import { PowerTranslator, ProviderTypes, TranslatorConfiguration, TranslatorFactory } from 'react-native-power-translator';
-TranslatorConfiguration.setConfig(ProviderTypes.Google, 'a6f61f01b171a9768f0de0c60bede603762446eb', 'en','fr');
+// import { 
+//   PowerTranslator, 
+//   ProviderTypes, 
+//   TranslatorConfiguration, 
+//   TranslatorFactory 
+// } from 'react-native-power-translator';
+
+// TranslatorConfiguration.setConfig(ProviderTypes.Google, 'a6f61f01b171a9768f0de0c60bede603762446eb', 'he','en');
 
 dayjs.extend(relativeTime);
 
 const Message = ({ message }) => {
 
+  const [selectedWord, setSelectedWord] = useState('');
   const [translation, setTranslation] = useState('');
   const [showTranslation, setShowTranslation] = useState(false);
 
@@ -23,19 +37,26 @@ const Message = ({ message }) => {
   const words = message.text.split(' ');
 
 
+  const fetchTranslation = async (word) => {
+    try {
+      const response = await fetch("http://");
+      const json = await response.json();
+      setTranslation(json.translation);
+    } catch (error) {
+      console.error('Error fetching translation:', error);
+    }
+  };
+
   // Render a word with a touchable opacity and a modal that shows the translation when pressed
   const renderWord = (word, index) => {
     return(
-      <View>
-        <TouchableOpacity key={index} onPress={() => setShowTranslation(!showTranslation)}>
+      <View key={index} style={styles.word}>
+        <TouchableOpacity onPress={() => {
+          setShowTranslation(true)
+          fetchTranslation(word)
+          }}>
           <Text>{word}</Text>
         </TouchableOpacity>
-        <Modal visible={showTranslation} animationType="slide">
-          <View style={styles.modalContainer}>
-            <PowerTranslator text={word} />
-            {/* <Text>{translation}</Text> */}
-          </View> 
-        </Modal>
       </View>
             
 
@@ -45,29 +66,43 @@ const Message = ({ message }) => {
   return (
     <View
       style={[
-        styles.container,
+        styles.messageContainer,
         {
           backgroundColor: isMyMessage() ? "#DCF8C5" : "white",
           alignSelf: isMyMessage() ? "flex-end" : "flex-start",
         },
-      ]}
-    >
-      {words.map((word, index) => renderWord(word, index))}
-      {/* <Text>{message.text}</Text> */}
+      ]}>
 
+        <View style={styles.textContainer}>
+          {words.map((word, index) => renderWord(word, index))}
+        </View>
       <Text style={styles.time}>{dayjs(message.createdAt).fromNow(true)}</Text>
+      
+      <Modal 
+      visible={showTranslation} 
+      animationType="slide"
+      >
+        <TouchableOpacity 
+          onPress={() => setShowTranslation(false)}
+          style={styles.closeButton}
+          >
+          <View style={styles.modalContainer}>
+
+            <Text>Close</Text>
+            {/* <PowerTranslator text={selectedWord} /> */}
+          </View>
+        </TouchableOpacity>
+      </Modal>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  messageContainer: {
     margin: 5,
     padding: 10,
     borderRadius: 10,
-    maxWidth: "80%",
-
-    // Shadows
+    maxWidth: "70%",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -75,15 +110,44 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.18,
     shadowRadius: 1.0,
-
     elevation: 1,
   },
-  message: {},
+  textContainer: {
+    flexDirection: "row-reverse",
+    flexWrap: "wrap",
+    direction: 'rtl',
+  },
+  word: {
+    marginRight: 5,
+    // writingDirection: 'rtl',
+  },
+  modalContainer: {
+    flex: 0.2,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  closeButton: {
+    backgroundColor: 'white',
+    padding: 10,
+    borderRadius: 10,
+  },
   time: {
     alignSelf: "flex-end",
     color: "grey",
-  },
-  modalContainer: {
   },
 });
 
