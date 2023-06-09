@@ -27,7 +27,7 @@ const Message = ({ message }) => {
 
   const [selectedWord, setSelectedWord] = useState('');
   const [translation, setTranslation] = useState('');
-  const [showTranslation, setShowTranslation] = useState(false);
+  const [ showTranslation, setShowTranslation] = useState(false);
 
   const isMyMessage = () => {
     return message.origin === "user";
@@ -35,12 +35,24 @@ const Message = ({ message }) => {
 
   // Split the message into words
   const words = message.text.split(' ');
+  const user_id = message.user.id;
 
-
-  const fetchTranslation = async (word) => {
+  async function fetchTranslation(word) {
+    console.log('fetching translation for', word);
     try {
-      const response = await fetch("http://");
+      const response = await fetch('http://35.236.62.168/chat/' + user_id + '/message/translate', {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          word: word.trim()
+        }), 
+      });
+      console.log('parsing response... ')
       const json = await response.json();
+      console.log(json);
       setTranslation(json.translation);
     } catch (error) {
       console.error('Error fetching translation:', error);
@@ -51,9 +63,9 @@ const Message = ({ message }) => {
   const renderWord = (word, index) => {
     return(
       <View key={index} style={styles.word}>
-        <TouchableOpacity onPress={() => {
-          setShowTranslation(true)
-          fetchTranslation(word)
+        <TouchableOpacity onPress={async () => {
+          setShowTranslation(true);
+          await fetchTranslation(word);
           }}>
           <Text>{word}</Text>
         </TouchableOpacity>
@@ -81,14 +93,15 @@ const Message = ({ message }) => {
       <Modal 
       visible={showTranslation} 
       animationType="slide"
+      style={{flex: 1}}
       >
         <TouchableOpacity 
           onPress={() => setShowTranslation(false)}
-          style={styles.closeButton}
+          // style={styles.closeButton}
           >
           <View style={styles.modalContainer}>
 
-            <Text>Close</Text>
+            <Text>{translation}</Text>
             {/* <PowerTranslator text={selectedWord} /> */}
           </View>
         </TouchableOpacity>
@@ -122,11 +135,11 @@ const styles = StyleSheet.create({
     // writingDirection: 'rtl',
   },
   modalContainer: {
-    flex: 0.2,
+    // flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 22,
-    margin: 20,
+    margin: 10,
     backgroundColor: 'white',
     borderRadius: 20,
     padding: 35,
@@ -140,11 +153,11 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
   },
-  closeButton: {
-    backgroundColor: 'white',
-    padding: 10,
-    borderRadius: 10,
-  },
+  // closeButton: {
+  //   backgroundColor: 'white',
+  //   padding: 10,
+  //   borderRadius: 10,
+  // },
   time: {
     alignSelf: "flex-end",
     color: "grey",

@@ -8,7 +8,7 @@ const SignIn = ({ navigation }) => {
   const [username, setUserName] = useState("");
 
   const handleSignIn = async () => {
-    try {
+    try { 
       console.log("Signing in");
       form = new FormData();
       form.append("username", username);
@@ -25,7 +25,7 @@ const SignIn = ({ navigation }) => {
 
       if (response.status == 200) {
         const userId = json.user_id;
-        console.log(userId);
+        console.log('Signed in user #' + userId);
         storeData("user_id", userId);
         navigation.navigate("DrawerStack", {
           screen: "Chat",

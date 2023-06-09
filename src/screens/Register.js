@@ -14,7 +14,7 @@ const Register = ({ navigation }) => {
 
   const handleRegister = async () => {
     try {
-      console.log("Trying to register new user...");
+      console.log("Registering new user...");
       // console.log({ username, email, password, nativeLanguage, targetLanguage, level});
       const response = await fetch("http://35.236.62.168/register", {
         method: "POST",
@@ -32,13 +32,9 @@ const Register = ({ navigation }) => {
         }),
       });
 
-      // const responsejson = await response.json();
-      console.log(JSON.stringify(response));
-      // console.log("start jsonify");
-
       if (response.status == 200) {
         console.log("Finished registering new user");
-        navigation.navigate("Signin");
+        navigation.navigate("SignIn");
       } else {
         throw new Error("Could not redirect to Sign In page");
       }

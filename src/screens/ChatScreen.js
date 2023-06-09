@@ -39,7 +39,6 @@ const ChatScreen = ({ route, navigaton }) => {
       });
 
       const json = await response.json();
-      console.log(json);
       setMessages(json.messages);
     }
     setCache(false);
