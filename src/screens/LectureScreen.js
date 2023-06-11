@@ -14,7 +14,7 @@ const LectureScreen = ({ route, navigaton }) => {
   // useEffect function that fetch a lesson endpoint on the server
   useEffect(() => {
     async function FetchData() {
-      const response = await fetch("http://35.236.62.168/lesson/", {
+      const response = await fetch("http://35.236.62.168/chat/" + user_id + "/lesson", {
         method: "GET",
       });
       const json = await response.json();

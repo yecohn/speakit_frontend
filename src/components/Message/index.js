@@ -126,9 +126,9 @@ const styles = StyleSheet.create({
     elevation: 1,
   },
   textContainer: {
-    flexDirection: "row-reverse",
+    flexDirection: "row",
     flexWrap: "wrap",
-    direction: 'rtl',
+    // direction: 'rtl',
   },
   word: {
     marginRight: 5,

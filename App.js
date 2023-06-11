@@ -32,7 +32,7 @@ function DrawerStack () {
       initialRouteName="Chat"
       drawerContent={(props) => <CustomDrawerContent {...props} />}>
       <Drawer.Screen name="Chat" component={ChatScreen} />
-      <Drawer.Screen name="Lecture" component={LectureScreen} />
+      <Drawer.Screen name="Lesson" component={LectureScreen} />
       <Drawer.Screen name="Topics" component={TopicsScreen} />
     </Drawer.Navigator>  
   );

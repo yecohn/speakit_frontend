@@ -13,14 +13,7 @@ import React, { useState, useEffect } from "react";
 // topics object that includes three topics with a topic name, id, short description, and link to youtube video
 
 const TopicsScreen = ({ route, navigation }) => {
-  // const topics = [
-  //     {
-  //         id: 1,
-  //         name: "Topic 1",
-  //         description: "This is the first topic",
-  //         video: "https://www.youtube.com/watch?v=0pThnRneDjw",
-  //         transcript: "This is the transcript for the first topic",
-  //     },
+
 
   const [needFetch, setNeedFetch] = useState(false);
   const [topics, setTopics] = useState([]);
@@ -29,7 +22,7 @@ const TopicsScreen = ({ route, navigation }) => {
 
   useEffect(() => {
     async function FetchData() {
-      const response = await fetch("http://35.236.62.168/topics/", {
+      const response = await fetch("http://35.236.62.168/topics", {
         method: "GET",
       });
       const json = await response.json();
@@ -41,11 +34,11 @@ const TopicsScreen = ({ route, navigation }) => {
   // component triggerTopicChat tells the server with address to specific topic to make an action with some api call
   const triggerTopicChat = async (topic_id) => {
     try {
-      response = await fetch("http://35.236.62.168/topics/" + topic_id, {
+      response = await fetch("http://35.236.62.168/chat/" + user_id + "/topics/" + topic_id, {
         method: "GET",
       });
       const json = await response.json();
-      setTranscript(json.transcript);
+      // setTranscript(json.transcript);
     } catch (error) {
       console.log(error);
     }

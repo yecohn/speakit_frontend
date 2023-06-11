@@ -12,6 +12,7 @@ import {
 import React, { useState, useEffect } from "react";
 import Constants from "expo-constants";
 import { Ionicons } from "@expo/vector-icons";
+import { useIsFocused } from "@react-navigation/native";
 
 // Component import
 import Message from "../components/Message";
@@ -31,20 +32,26 @@ const ChatScreen = ({ route, navigaton }) => {
   const [cacheInputText, setCacheInputText] = useState("");
   const [needFetch, setNeedFetch] = useState(false);
   const [inputText, setInputText] = useState("");
+  const isFocused = useIsFocused();
 
   useEffect(() => {
-    async function FetchData() {
-      const response = await fetch("http://35.236.62.168/chat/" + user_id, {
-        method: "GET",
-      });
 
-      const json = await response.json();
-      setMessages(json.messages);
+    if(isFocused) {
+
+      async function FetchData() {
+        const response = await fetch("http://35.236.62.168/chat/" + user_id, {
+          method: "GET",
+        });
+
+        const json = await response.json();
+        setMessages(json.messages);
+      }
+      setCache(false);
+
+      FetchData();     
+
     }
-    setCache(false);
-
-    FetchData();
-  }, [needFetch]);
+  }, [needFetch, isFocused]);
 
   async function PostMessage(newmessage) {
     await fetch("http://35.236.62.168/chat/" + user_id + "/post", {
@@ -95,7 +102,7 @@ const ChatScreen = ({ route, navigaton }) => {
     <View style={styles.container}>
       <FlatList
         data={messages}
-        renderItem={({ item }) => <Message message={item} />}
+        renderItem={({ item }) => (item.origin!='system') && <Message message={item} />}
         style={styles.chat}
         inverted
         contentContainerStyle={styles.messagesContainer}

@@ -27,7 +27,7 @@ const Register = ({ navigation }) => {
           password,
           level,
           email,
-          targetLanguage,
+          nativeLanguage,
           targetLanguage,
         }),
       });

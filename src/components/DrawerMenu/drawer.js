@@ -25,6 +25,8 @@ const CustomDrawerContent = (props) => {
       }
     );
     const response_json = await response.json();
+    console.log(response_json);
+    navigation.navigate("Chat", { user_id: user__id });
   }
 
   return (
@@ -44,10 +46,10 @@ const CustomDrawerContent = (props) => {
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.drawerItem}
-        onPress={() => navigation.navigate("Lecture")}
+        onPress={() => navigation.navigate("Lesson", { user_id: user__id })}
       >
         <Icon name="book-open" size={24} style={styles.drawerIcon} />
-        <Text style={styles.drawerText}>Lecture</Text>
+        <Text style={styles.drawerText}>Lesson</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.drawerItem}
