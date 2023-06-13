@@ -117,7 +117,7 @@ const ChatScreen = ({ route, navigaton }) => {
           onChangeText={(newText) => handleInputText(newText)}
         />
 
-        <Microphone />
+        <Microphone user_id={user_id} />
 
         <TouchableOpacity style={styles.sendButton} onPress={handleSend}>
           <Ionicons name="send-outline" size={24} color="white" />

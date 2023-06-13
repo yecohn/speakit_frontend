@@ -7,8 +7,6 @@ import {
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import { useIsFocused } from "@react-navigation/native";
-import RenderHtml from 'react-native-render-html';
-import { SafeAreaView } from "react-native-safe-area-context";
 
 
 

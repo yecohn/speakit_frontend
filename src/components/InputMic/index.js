@@ -13,7 +13,7 @@ import * as FileSystem from "expo-file-system";
 import { PermissionsAndroid } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
-const Microphone = () => {
+const Microphone = ({ user_id }) => {
   const [recording, setRecording] = useState(null);
   const [sound, setSound] = useState(null);
 
@@ -74,13 +74,14 @@ const Microphone = () => {
   const uploadRecording = async () => {
     const data = new FormData();
     data.append("audio_input", { recording });
-    const res = await fetch("http://35.236.62.168/upload", {
+    const res = await fetch("http://35.236.62.168/chat/" + {user_id} + "/microphone", {
       method: "POST",
-      body: data,
       headers: {
-        "Content-Type": "multipart/form-data; ",
+        "Content-Type": "multipart/form-data",
       },
+      body: data,
     });
+
     const resJson = await res.json();
     if (resJson.status === "success") {
       console.log("Upload successful");
