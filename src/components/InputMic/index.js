@@ -1,21 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   TouchableOpacity,
   Text,
-  Image,
   StyleSheet,
-  View,
   Dimensions,
 } from "react-native";
 import { Audio } from "expo-av";
 import * as FileSystem from "expo-file-system";
-// import { Permissions } from "expo-permissions";
 import { PermissionsAndroid } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
-const Microphone = ({ user_id }) => {
+const Microphone = ({ user_id, onChange }) => {
+
   const [recording, setRecording] = useState(null);
-  const [sound, setSound] = useState(null);
+  const [sound, setSound] = useState(new Audio.Sound());
+  const [answerURI, setAnswerURI] = useState(null);
 
   async function requestRecordAudioPermission() {
     try {
@@ -41,10 +40,10 @@ const Microphone = ({ user_id }) => {
       console.warn(err);
       return false;
     }
-  }
+  };
 
   const startRecording = async () => {
-    try {
+    try {  
       await requestRecordAudioPermission();
       const { recording } = await Audio.Recording.createAsync(
         Audio.RecordingOptionsPresets.HIGH_QUALITY
@@ -58,42 +57,67 @@ const Microphone = ({ user_id }) => {
   const stopRecording = async () => {
     try {
       await recording.stopAndUnloadAsync();
-      const info = await FileSystem.getInfoAsync(recording.getURI());
-      console.log(`File size: ${info.size}`);
+      const uri = recording.getURI();
+      const info = await FileSystem.getInfoAsync(uri);
+      console.log(`File size: ${info.size}, file uri: ${uri}`);
       setRecording(undefined);
-
-      await loadSound();
-      if (Boolean(sound)) {
-        await uploadRecording();
-      }
+      
+      await uploadRecording(uri);
+      onChange();
+      await downloadRecording();
+      // await loadSound();
+      // await playSound();
     } catch (err) {
       console.error("Failed to stop recording", err);
     }
   };
 
-  const uploadRecording = async () => {
-    const data = new FormData();
-    data.append("audio_input", { recording });
-    const res = await fetch("http://35.236.62.168/chat/" + {user_id} + "/microphone", {
-      method: "POST",
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-      body: data,
-    });
+  const uploadRecording = async (uri) => {
 
-    const resJson = await res.json();
-    if (resJson.status === "success") {
-      console.log("Upload successful");
-    } else {
-      console.log("Upload failed");
+    const formData = new FormData();
+    const filetype = uri.split('.').pop();
+    const filename = uri.split('/').pop();
+    formData.append('audio_data', {
+      uri,
+      type: `audio/${filetype}`,
+      name: filename,
+    });
+    try {
+
+      const res = await fetch("http://35.236.62.168/chat/" + user_id + "/microphone", {
+        method: "POST",
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'multipart/form-data',
+        },
+        body: formData,
+      });
+
+      onChange();
+    } catch (err) {
+      console.error("Failed to upload recording", err);
+    }
+    
+  };
+
+  const downloadRecording = async () => {
+    try {
+      const res = await fetch("http://35.236.62.168/chat/" + user_id + "/microphone/download", {
+        method: "GET",
+      });
+      console.log(await res);
+      // setAnswerURI(res.url);
+    } catch (err) {
+      console.error("Failed to download recording", err);
     }
   };
+
+
 
   const loadSound = async () => {
     try {
       const { sound } = await Audio.Sound.createAsync({
-        uri: recording.getURI(),
+        uri: answerURI,
       });
       setSound(sound);
       console.log("Sound loaded successfully");
@@ -102,16 +126,17 @@ const Microphone = ({ user_id }) => {
     }
   };
 
-  const playRecording = async () => {
+  const playSound = async () => {
     try {
       if (Boolean(sound)) {
         await sound.playAsync();
         console.log("Playing sound");
+        setSound(null);
       } else {
-        console.error("Sound object is not loaded");
+        console.error("Sound object is not loaded correctly");
       }
     } catch (err) {
-      console.error("Failed to play recording", err);
+      console.error("Failed to play sound", err);
     }
   };
 
@@ -126,11 +151,11 @@ const Microphone = ({ user_id }) => {
           <Ionicons name="mic-outline" size={24} color="gray" />
         </TouchableOpacity>
       }
-      {Boolean(sound) && (
+      {/* {Boolean(sound) && (
         <TouchableOpacity onPress={playRecording}>
           <Text>Play recording</Text>
         </TouchableOpacity>
-      )}
+      )} */}
     </>
   );
 };

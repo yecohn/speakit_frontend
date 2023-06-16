@@ -9,8 +9,8 @@ const Register = ({ navigation }) => {
   const [username, setUserName] = useState("");
   const [level, setLevel] = useState("Beginner");
 
-  const [nativeLanguage, setNativeLanguage] = useState("English");
-  const [targetLanguage, setTargetLanguage] = useState("French");
+  const [native, setNative] = useState("English");
+  const [target, setTarget] = useState("Spanish");
 
   const handleRegister = async () => {
     try {
@@ -25,10 +25,8 @@ const Register = ({ navigation }) => {
         body: JSON.stringify({
           username,
           password,
-          level,
-          email,
-          nativeLanguage,
-          targetLanguage,
+          native,
+          target,
         }),
       });
 
@@ -53,11 +51,11 @@ const Register = ({ navigation }) => {
             onChangeText={(input) => setUserName(input)}
             value={username}
           />
-          <Input
+          {/* <Input
             placeholder="Email"
             onChangeText={(input) => setEmail(input)}
             value={email}
-          />
+          /> */}
           <Input
             placeholder="Password"
             onChangeText={(input) => setPassword(input)}
@@ -67,9 +65,9 @@ const Register = ({ navigation }) => {
           <Text>What is your native language?</Text>
           <Picker
             // style={styles.picker}
-            selectedValue={nativeLanguage}
+            selectedValue={native}
             mode={"dropdown"}
-            onValueChange={(language, itemIndex) => setNativeLanguage(language)}
+            onValueChange={(language, itemIndex) => setNative(language)}
           >
             <Picker.Item label="English" value="English" />
             <Picker.Item label="French" value="French" />
@@ -79,15 +77,15 @@ const Register = ({ navigation }) => {
           <Text>What language do you want to learn?</Text>
           <Picker
             // style={styles.picker}
-            selectedValue={targetLanguage}
-            onValueChange={(language, itemIndex) => setTargetLanguage(language)}
+            selectedValue={target}
+            onValueChange={(language, itemIndex) => setTarget(language)}
           >
             <Picker.Item label="English" value="English" />
             <Picker.Item label="French" value="French" />
             <Picker.Item label="Spanish" value="Spanish" />
             <Picker.Item label="Hebrew" value="Hebrew" />
           </Picker>
-          <Text>What do you think is your current level?</Text>
+          {/* <Text>What do you think is your current level?</Text>
           <Picker
             // style={styles.picker}
             selectedValue={level}
@@ -95,7 +93,7 @@ const Register = ({ navigation }) => {
             onValueChange={(level, itemIndex) => setLevel(level)}
           >
             <Picker.Item label="Beginner" value="Beginner" />
-          </Picker>
+          </Picker> */}
           <Button
             title="Register"
             onPress={handleRegister}

@@ -11,7 +11,7 @@ const CustomDrawerContent = (props) => {
   // write use effect hook to retrieve user_id from async storage
   useEffect(() => {
     async function FetchUserId() {
-      const user_id = await getData("user_id");
+      const user_id = await getData("chatId");
       setUser__id(user_id);
     }
     FetchUserId();

@@ -32,6 +32,8 @@ const ChatScreen = ({ route, navigaton }) => {
   const [cacheInputText, setCacheInputText] = useState("");
   const [needFetch, setNeedFetch] = useState(false);
   const [inputText, setInputText] = useState("");
+  const [micComponentKey, setMicComponentKey] = useState(0);
+  
   const isFocused = useIsFocused();
 
   useEffect(() => {
@@ -54,6 +56,7 @@ const ChatScreen = ({ route, navigaton }) => {
   }, [needFetch, isFocused]);
 
   async function PostMessage(newmessage) {
+
     await fetch("http://35.236.62.168/chat/" + user_id + "/post", {
       method: "POST",
       headers: {
@@ -98,6 +101,11 @@ const ChatScreen = ({ route, navigaton }) => {
     );
   };
 
+  const handleMessageFromMic = () => {
+    setNeedFetch(!needFetch);
+    setMicComponentKey((prevKey) => prevKey + 1);
+  };
+
   return (
     <View style={styles.container}>
       <FlatList
@@ -113,11 +121,11 @@ const ChatScreen = ({ route, navigaton }) => {
           style={styles.input}
           placeholder="Type a message"
           defaultValue={inputText}
-          // onChangeText={(newText) => setInputText(newText)}
+          // onC hangeText={(newText) => setInputText(newText)}
           onChangeText={(newText) => handleInputText(newText)}
         />
 
-        <Microphone user_id={user_id} />
+        <Microphone user_id={user_id} key={micComponentKey} onChange={handleMessageFromMic} />
 
         <TouchableOpacity style={styles.sendButton} onPress={handleSend}>
           <Ionicons name="send-outline" size={24} color="white" />

@@ -1,5 +1,6 @@
 // src/components/Message/index.js
 import { useState } from 'react';
+import { getData } from "../../tools/asyncStorage";
 
 import { 
   View, 
@@ -35,12 +36,12 @@ const Message = ({ message }) => {
 
   // Split the message into words
   const words = message.text.split(' ');
-  const user_id = message.user.id;
 
   async function fetchTranslation(word) {
     console.log('fetching translation for', word);
+    const chatId = await getData("chatId");
     try {
-      const response = await fetch('http://35.236.62.168/chat/' + user_id + '/message/translate', {
+      const response = await fetch('http://35.236.62.168/chat/' + chatId + '/message/translate', {
         method: "POST",
         headers: {
           Accept: "application/json",

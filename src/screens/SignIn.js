@@ -24,13 +24,14 @@ const SignIn = ({ navigation }) => {
       const json = await response.json();
 
       if (response.status == 200) {
-        const userId = json.user_id;
-        console.log('Signed in user #' + userId);
-        storeData("user_id", userId);
+        console.log('Signed in user #' + json.user_id + ' with chat id #' + json.chatId);
+        storeData("user_id", json.user_id);
+        storeData('chatId', json.chatId)
         navigation.navigate("DrawerStack", {
           screen: "Chat",
           params: {
-            user_id: userId,
+            user_id: json.chatId,
+            // chat_id: chatId,
           },
         });
       } else {
